@@ -1,6 +1,5 @@
 package server.api;
 
-import com.sun.jdi.request.InvalidRequestStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import server.data.PatientRepository;
+import server.data.WardRepository;
 import server.domain.Patient;
+import server.domain.Ward;
 
 import javax.validation.Valid;
 
@@ -25,10 +26,12 @@ import javax.validation.Valid;
 @CrossOrigin("*")
 public class PatientController {
     private final PatientRepository patientRepo;
+    private final WardRepository wardRepo;
 
     @Autowired
-    public PatientController(PatientRepository patientRepo) {
+    public PatientController(PatientRepository patientRepo, WardRepository wardRepo) {
         this.patientRepo = patientRepo;
+        this.wardRepo = wardRepo;
     }
 
     @GetMapping
@@ -46,7 +49,14 @@ public class PatientController {
     @PutMapping(path = "/{id}", consumes = "application/json")
     public void updatePatient(@PathVariable long id, @Valid @RequestBody Patient patient) {
         if (patient.getId() != id) {
-            throw new InvalidRequestStateException("Given patient id doesn't match the id in the path.");
+            throw new IllegalStateException("Given patient id doesn't match the id in the path.");
+        }
+
+        Ward ward = wardRepo.findById(patient.getWard().getId()).orElseThrow(() ->
+                new IllegalStateException("No such ward."));
+
+        if (patientRepo.countByWard(ward) + 1 > ward.getMaxCount()) {
+            throw new IllegalStateException("Provided patients ward is fully filled.");
         }
 
         patientRepo.save(patient);
@@ -55,6 +65,13 @@ public class PatientController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Patient createPatient(@RequestBody Patient patient) {
+        Ward ward = wardRepo.findById(patient.getWard().getId()).orElseThrow(() ->
+                new IllegalStateException("No such ward."));
+
+        if (patientRepo.countByWard(ward) + 1 > ward.getMaxCount()) {
+            throw new IllegalStateException("Provided patients ward is fully filled.");
+        }
+
         return patientRepo.save(patient);
     }
 
