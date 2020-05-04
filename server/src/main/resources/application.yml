@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: 'jdbc:mysql://${MYSQL_HOST:localhost}:3306/HOSPITAL?serverTimezone=Europe/Moscow'
+    username: hospitaluser
+    password: password
+
