@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import server.data.WardRepository;
 import server.domain.Ward;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/api/wards", produces = "application/json")
 @CrossOrigin("*")
@@ -42,7 +44,7 @@ public class WardController {
     }
 
     @PutMapping(path = "/{id}", consumes = "application/json")
-    public void updateWard(@PathVariable long id, @RequestBody Ward ward) {
+    public void updateWard(@PathVariable long id, @Valid @RequestBody Ward ward) {
         if (ward.getId() != id) {
             throw new InvalidRequestStateException("Given ward id doesn't match the id in the path.");
         }
@@ -52,7 +54,7 @@ public class WardController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Ward createWard(@RequestBody Ward ward) {
+    public Ward createWard(@Valid @RequestBody Ward ward) {
         return wardRepo.save(ward);
     }
 

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import server.data.DiagnosisRepository;
 import server.domain.Diagnosis;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/api/diagnosis", produces = "application/json")
 @CrossOrigin("*")
@@ -42,7 +44,7 @@ public class DiagnosisController {
     }
 
     @PutMapping(path = "/{id}", consumes = "application/json")
-    public void updateDiagnosis(@PathVariable long id, @RequestBody Diagnosis diagnosis) {
+    public void updateDiagnosis(@PathVariable long id, @Valid @RequestBody Diagnosis diagnosis) {
         if (diagnosis.getId() != id) {
             throw new IllegalStateException("Given diagnosis id doesn't match the id in the path.");
         }
@@ -52,7 +54,7 @@ public class DiagnosisController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Diagnosis createDiagnosis(@RequestBody Diagnosis diagnosis) {
+    public Diagnosis createDiagnosis(@Valid @RequestBody Diagnosis diagnosis) {
         return diagnosisRepo.save(diagnosis);
     }
 

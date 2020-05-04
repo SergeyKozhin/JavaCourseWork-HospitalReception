@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import server.data.PatientRepository;
 import server.domain.Patient;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/api/patients", produces = "application/json")
 @CrossOrigin("*")
@@ -42,7 +44,7 @@ public class PatientController {
     }
 
     @PutMapping(path = "/{id}", consumes = "application/json")
-    public void updatePatient(@PathVariable long id, @RequestBody Patient patient) {
+    public void updatePatient(@PathVariable long id, @Valid @RequestBody Patient patient) {
         if (patient.getId() != id) {
             throw new InvalidRequestStateException("Given patient id doesn't match the id in the path.");
         }
@@ -58,7 +60,7 @@ public class PatientController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePatient(@PathVariable long id) {
+    public void deletePatient(@Valid @PathVariable long id) {
         try {
             patientRepo.deleteById(id);
         } catch (EmptyResultDataAccessException ignored) {
