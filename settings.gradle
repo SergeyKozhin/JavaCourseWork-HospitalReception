@@ -1,3 +1,4 @@
 rootProject.name = 'JavaCourseWork-HospitalReception'
+include 'client'
 include 'server'
 
