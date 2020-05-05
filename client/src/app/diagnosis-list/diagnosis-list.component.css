@@ -1,4 +1,4 @@
-h2 {
-  display: flex;
-  justify-self: center;
+mat-list-item {
+  cursor: pointer;
 }
+

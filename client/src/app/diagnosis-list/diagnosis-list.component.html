@@ -1,6 +1,7 @@
 <h2 mat-line>Diagnoses</h2>
 <mat-list>
-  <mat-list-item *ngFor="let diagnosis of diagnoses; last as last">
+  <mat-list-item *ngFor="let diagnosis of diagnoses; last as last"
+  [routerLink]="['/patients']" [queryParams]="{ diagnosis: diagnosis.id.toString() }" >
     <h4 mat-line>{{diagnosis.name}}</h4>
     <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
   </mat-list-item>
