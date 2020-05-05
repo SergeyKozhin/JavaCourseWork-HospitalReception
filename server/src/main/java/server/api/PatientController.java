@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import server.data.PatientRepository;
+import server.data.PatientSpecification;
 import server.data.WardRepository;
 import server.domain.Patient;
 import server.domain.Ward;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/patients", produces = "application/json")
@@ -35,12 +38,23 @@ public class PatientController {
     }
 
     @GetMapping
-    public Iterable<Patient> allPatients() {
-        return patientRepo.findAll();
+    public Iterable<Patient> allPatients(
+            @RequestParam Optional<String> name,
+            @RequestParam Optional<Long> diagnosis,
+            @RequestParam Optional<Long> ward
+    ) {
+        PatientSpecification specification =
+                new PatientSpecification(
+                        name.orElse(""),
+                        diagnosis.orElse(-1L),
+                        ward.orElse(-1L)
+                );
+
+        return patientRepo.findAll(specification);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientBuId(@PathVariable long id) {
+    public ResponseEntity<Patient> getPatientById(@PathVariable long id) {
         return patientRepo.findById(id).map(patient ->
                 new ResponseEntity<>(patient, HttpStatus.OK)).orElse(
                 new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
