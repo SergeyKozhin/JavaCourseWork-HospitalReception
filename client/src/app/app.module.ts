@@ -9,18 +9,32 @@ import { environment } from '../environments/environment';
 import { BaseUrlInterceptor } from './base-url.interceptor';
 import { WardListComponent } from './ward-list/ward-list.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     AppComponent,
     DiagnosisListComponent,
     WardListComponent,
-    PatientListComponent
+    PatientListComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
