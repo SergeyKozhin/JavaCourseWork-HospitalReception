@@ -23,47 +23,23 @@ public class DevelopmentConfig {
             diagnosisRepo.deleteAll();
             wardRepo.deleteAll();
 
-            Diagnosis covid = new Diagnosis();
-            covid.setName("Covid-19");
-
-            Diagnosis flue = new Diagnosis();
-            flue.setName("Flue");
-
-            Diagnosis dementia = new Diagnosis();
-            dementia.setName("Dementia");
+            Diagnosis covid = new Diagnosis("Covid-19");
+            Diagnosis flue = new Diagnosis("Flue");
+            Diagnosis dementia = new Diagnosis("Dementia");
 
             diagnosisRepo.save(covid);
             diagnosisRepo.save(flue);
             diagnosisRepo.save(dementia);
 
-            Ward virusWard = new Ward();
-            virusWard.setName("Virus Infection Ward");
-            virusWard.setMaxCount(50);
-
-            Ward psychologyWard = new Ward();
-            psychologyWard.setName("Psychological Ward");
-            psychologyWard.setMaxCount(20);
+            Ward virusWard = new Ward("Virus Infection Ward", 50);
+            Ward psychologyWard = new Ward("Psychological Ward", 20);
 
             wardRepo.save(virusWard);
             wardRepo.save(psychologyWard);
 
-            Patient john = new Patient();
-            john.setFirstName("John");
-            john.setLastName("Smith");
-            john.setDiagnosis(covid);
-            john.setWard(virusWard);
-
-            Patient tom = new Patient();
-            tom.setFirstName("Tom");
-            tom.setLastName("Williams");
-            tom.setDiagnosis(flue);
-            tom.setWard(virusWard);
-
-            Patient sarah = new Patient();
-            sarah.setFirstName("Sarah");
-            sarah.setLastName("Connor");
-            sarah.setDiagnosis(dementia);
-            sarah.setWard(psychologyWard);
+            Patient john = new Patient("John", "Smith", "", covid, virusWard);
+            Patient tom = new Patient("Tom", "Williams", "", flue, virusWard);
+            Patient sarah = new Patient("Sarah", "Connor", "", dementia, psychologyWard);
 
             patientRepo.save(john);
             patientRepo.save(tom);

@@ -1,6 +1,9 @@
 package server.domain;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +14,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@RequiredArgsConstructor
 @Entity
 public class Diagnosis {
 
@@ -21,5 +26,5 @@ public class Diagnosis {
     @Column(length = 50)
     @NotBlank(message = "Diagnosis name is mandatory")
     @Size(max = 50, message = "Diagnosis name cant'be longer than 50 characters")
-    private String name;
+    private final String name;
 }

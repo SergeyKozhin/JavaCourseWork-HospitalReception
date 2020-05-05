@@ -1,6 +1,9 @@
 package server.domain;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@RequiredArgsConstructor
 @Entity
 @Table(name = "Wards")
 public class Ward {
@@ -24,8 +29,8 @@ public class Ward {
     @Column(length = 50)
     @NotBlank(message = "Ward name is mandatory")
     @Size(max = 50, message = "Ward name cant'be longer than 50 characters")
-    private String name;
+    private final String name;
 
     @Min(value = 1, message = "Max count must be positive")
-    private long maxCount;
+    private final long maxCount;
 }
