@@ -9,7 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class WardService {
-  private wardUrl = '/api/wards';
+  private wardUrl = 'wards';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

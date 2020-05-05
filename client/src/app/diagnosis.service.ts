@@ -9,7 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DiagnosisService {
-  private diagnosisUrl = '/api/diagnosis';
+  private diagnosisUrl = 'diagnosis';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
