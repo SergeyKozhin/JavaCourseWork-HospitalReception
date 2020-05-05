@@ -7,11 +7,15 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DiagnosisListComponent } from './diagnosis-list/diagnosis-list.component';
 import { environment } from '../environments/environment';
 import { BaseUrlInterceptor } from './base-url.interceptor';
+import { WardListComponent } from './ward-list/ward-list.component';
+import { PatientListComponent } from './patient-list/patient-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DiagnosisListComponent
+    DiagnosisListComponent,
+    WardListComponent,
+    PatientListComponent
   ],
   imports: [
     BrowserModule,
