@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Patient } from './Patient';
 import { catchError, tap } from 'rxjs/operators';
+import { PatientSearchParameters } from './PatientSearchParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,9 @@ export class PatientService {
     private http: HttpClient
   ) { }
 
-  getPatients(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(this.patientUrl)
+  getPatients(params: PatientSearchParameters): Observable<Patient[]> {
+
+    return this.http.get<Patient[]>(this.patientUrl, { params: params as any })
       .pipe(
         tap(_ => this.logger.log('fetched patients')),
         catchError(this.handleError<Patient[]>('getPatients', []))

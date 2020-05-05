@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from '../Patient';
 import { PatientService } from '../patient.service';
+import { PatientSearchParameters } from '../PatientSearchParameters';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-patient-table',
@@ -9,16 +11,23 @@ import { PatientService } from '../patient.service';
 })
 export class PatientTableComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'fatherName', 'diagnosis', 'ward'];
+  params: PatientSearchParameters;
   patients: Patient[];
 
   constructor(
-    private patientService: PatientService
+    private patientService: PatientService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.patientService.getPatients()
-      .subscribe(patients => {
-        this.patients = patients;
+    this.route.queryParams
+      .subscribe(params => {
+        this.params = params;
+
+        this.patientService.getPatients(params)
+          .subscribe(patients => {
+            this.patients = patients;
+          });
       });
   }
 }
