@@ -1,7 +1,16 @@
 <h2>Wards</h2>
-<ul>
-  <li *ngFor="let ward of wards">
-    <span>Name: {{ward.name}}, </span>
-    <span>Max count: {{ward.maxCount}}</span>
-  </li>
-</ul>
+<mat-expansion-panel *ngFor="let ward of wards">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ward.name}}
+    </mat-panel-title>
+    <mat-panel-description>
+      Max count: {{ward.maxCount}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <ng-template matExpansionPanelContent>
+    <app-patient-table></app-patient-table>
+  </ng-template>
+
+</mat-expansion-panel>

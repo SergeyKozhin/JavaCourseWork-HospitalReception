@@ -19,6 +19,7 @@ import { MatListModule } from '@angular/material/list';
 import { AppRoutingModule } from './app-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { PatientTableComponent } from './patient-table/patient-table.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -29,19 +30,20 @@ import { PatientTableComponent } from './patient-table/patient-table.component';
     NavigationComponent,
     PatientTableComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    AppRoutingModule,
-    MatTableModule,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        AppRoutingModule,
+        MatTableModule,
+        MatExpansionModule,
+    ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true}
