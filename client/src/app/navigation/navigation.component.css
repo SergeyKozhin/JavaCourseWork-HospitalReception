@@ -6,6 +6,10 @@
   width: 200px;
 }
 
+.sidenav-content {
+  padding: 24px;
+}
+
 .sidenav .mat-toolbar {
   background: inherit;
 }
