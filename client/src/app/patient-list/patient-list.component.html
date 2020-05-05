@@ -1,8 +1,2 @@
-<h2>Patients</h2>
-<ul>
-  <li *ngFor="let patient of patients">
-    <span>Name: {{patient.firstName}} {{patient.lastName}}, </span>
-    <span>Diagnosis: {{patient.diagnosis.name}}, </span>
-    <span>Ward: {{patient.ward.name}}</span>
-  </li>
-</ul>
+<h2 matLine>Patients</h2>
+<app-patient-table></app-patient-table>

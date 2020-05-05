@@ -17,6 +17,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { AppRoutingModule } from './app-routing.module';
+import { MatTableModule } from '@angular/material/table';
+import { PatientTableComponent } from './patient-table/patient-table.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
     DiagnosisListComponent,
     WardListComponent,
     PatientListComponent,
-    NavigationComponent
+    NavigationComponent,
+    PatientTableComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatIconModule,
     MatListModule,
     AppRoutingModule,
+    MatTableModule,
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
