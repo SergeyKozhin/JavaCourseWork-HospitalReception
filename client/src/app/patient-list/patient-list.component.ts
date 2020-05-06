@@ -12,6 +12,7 @@ import { WardService } from '../services/ward.service';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit {
+  search: string;
   params$: Observable<PatientSearchParameters>;
   diagnosesItems: CheckboxItem[];
   wardsItems: CheckboxItem[];
@@ -25,6 +26,14 @@ export class PatientListComponent implements OnInit {
 
   ngOnInit(): void {
     this.params$ = this.route.queryParams;
+
+    this.params$
+      .subscribe(params => {
+        if (params.name) {
+          this.search = params.name;
+        }
+      });
+
     this.diagnosisService.getDiagnoses()
       .subscribe(diagnoses => {
         this.diagnosesItems = diagnoses.map(diagnosis => {
@@ -80,12 +89,12 @@ export class PatientListComponent implements OnInit {
       });
   }
 
-  onSearch(name: string) {
+  onSearch() {
     this.params$
       .subscribe(params => {
         let newParams: PatientSearchParameters;
-        if (name) {
-          newParams = { ...params, name };
+        if (this.search) {
+          newParams = { ...params, name: this.search };
         } else {
           newParams = { ...params, name: null };
         }

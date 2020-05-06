@@ -2,10 +2,10 @@
 <div class="search">
   <mat-form-field class="search-field">
     <mat-label>Search</mat-label>
-    <input #search matInput placeholder="ex. John Doe" (keyup.enter)="onSearch(search.value)">
+    <input matInput placeholder="ex. John Doe" [(ngModel)]="search" (keyup.enter)="onSearch()">
   </mat-form-field>
   <div>
-    <button mat-icon-button (click)="onSearch(search.value)">
+    <button mat-icon-button (click)="onSearch()">
       <mat-icon>search</mat-icon>
     </button>
   </div>
