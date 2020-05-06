@@ -22,6 +22,7 @@ import server.domain.Patient;
 import server.domain.Ward;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,16 +40,11 @@ public class PatientController {
 
     @GetMapping
     public Iterable<Patient> allPatients(
-            @RequestParam Optional<String> name,
-            @RequestParam Optional<Long> diagnosis,
-            @RequestParam Optional<Long> ward
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") List<Long> diagnosis,
+            @RequestParam(required = false, defaultValue = "") List<Long> ward
     ) {
-        PatientSpecification specification =
-                new PatientSpecification(
-                        name.orElse(""),
-                        diagnosis.orElse(-1L),
-                        ward.orElse(-1L)
-                );
+        PatientSpecification specification = new PatientSpecification(name, diagnosis, ward);
 
         return patientRepo.findAll(specification);
     }
