@@ -16,9 +16,9 @@
     <app-patient-table [params]="(params$ | async)"></app-patient-table>
   </div>
   <div class="filters">
-    <app-checkbox-filter [groupName]="'Diagnoses'" [items]="diagnosesItems"
+    <app-checkbox-filter *ngIf="diagnosesItems" [groupName]="'Diagnoses'" [items]="diagnosesItems"
                          (toggle)="onFilterChange('diagnoses', $event)"></app-checkbox-filter>
-    <app-checkbox-filter [groupName]="'Wards'" [items]="wardsItems"
+    <app-checkbox-filter *ngIf="wardsItems" [groupName]="'Wards'" [items]="wardsItems"
                          (toggle)="onFilterChange('wards', $event)"></app-checkbox-filter>
   </div>
 </div>

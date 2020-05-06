@@ -35,10 +35,15 @@ export class PatientListComponent implements OnInit {
         });
 
         this.params$
-          .subscribe(params => this.diagnosesItems = this.diagnosesItems.map(item => ({
-            ...item,
-            checked: params.diagnosis.includes(item.value)
-          })));
+          .subscribe(params => {
+            if (params.diagnosis) {
+              this.diagnosesItems = this.diagnosesItems.map(item => ({
+                ...item,
+                checked: params.diagnosis.includes(item.value)
+              }));
+            }
+          })
+        ;
       });
 
     this.wardService.getWards()
@@ -51,10 +56,14 @@ export class PatientListComponent implements OnInit {
         });
 
         this.params$
-          .subscribe(params => this.wardsItems = this.wardsItems.map(item => ({
-            ...item,
-            checked: params.ward.includes(item.value)
-          })));
+          .subscribe(params => {
+            if (params.ward) {
+              this.wardsItems = this.wardsItems.map(item => ({
+                ...item,
+                checked: params.ward.includes(item.value)
+              }));
+            }
+          });
       });
   }
 
