@@ -1,6 +1,10 @@
-<h3 matLine>{{groupName}}</h3>
-<div class="checkbox" *ngFor="let item of items">
-  <mat-checkbox [(ngModel)]="item.checked" (change)="onToggle()">
-    {{item.label}}
-  </mat-checkbox>
-</div>
+<mat-expansion-panel #panel>
+  <mat-expansion-panel-header>
+    {{groupName}}
+  </mat-expansion-panel-header>
+  <div class="checkbox" *ngFor="let item of items">
+    <mat-checkbox [(ngModel)]="item.checked" (change)="onToggle()">
+      {{item.label}}
+    </mat-checkbox>
+  </div>
+</mat-expansion-panel>
