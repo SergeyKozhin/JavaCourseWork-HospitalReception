@@ -1,16 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Patient } from '../doamain/Patient';
 import { PatientService } from '../services/patient.service';
 import { PatientSearchParameters } from '../services/PatientSearchParameters';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-patient-table',
   templateUrl: './patient-table.component.html',
   styleUrls: ['./patient-table.component.css']
 })
-export class PatientTableComponent implements OnInit {
-  @Input() params$: Observable<PatientSearchParameters>;
+export class PatientTableComponent implements OnInit, OnChanges {
+  @Input() params: PatientSearchParameters;
   displayedColumns: string[] = ['firstName', 'lastName', 'fatherName', 'diagnosis', 'ward'];
   patients: Patient[];
 
@@ -19,10 +18,12 @@ export class PatientTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.params$
-      .subscribe(params =>
-        this.patientService.getPatients(params)
-          .subscribe(patients => this.patients = patients)
-      );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.params) {
+      this.patientService.getPatients(changes.params.currentValue)
+        .subscribe(patients => this.patients = patients);
+    }
   }
 }

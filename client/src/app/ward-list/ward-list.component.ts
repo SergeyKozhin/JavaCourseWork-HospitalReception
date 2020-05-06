@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WardService } from '../services/ward.service';
 import { Ward } from '../doamain/Ward';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-ward-list',
@@ -20,9 +19,4 @@ export class WardListComponent implements OnInit {
       .subscribe(wards => this.wards = wards);
 
   }
-
-  toObservable<T>(object: T): Observable<T> {
-    return of(object);
-  }
-
 }
