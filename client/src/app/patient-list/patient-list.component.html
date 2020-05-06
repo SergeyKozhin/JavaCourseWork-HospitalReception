@@ -1,2 +1,12 @@
 <h2 matLine>Patients</h2>
-<app-patient-table [params]="(params$ | async)"></app-patient-table>
+<div class="table-and-filters">
+  <div class="table">
+    <app-patient-table [params]="(params$ | async)"></app-patient-table>
+  </div>
+  <div class="filters">
+    <app-checkbox-filter [groupName]="'Diagnoses'" [items]="diagnosesItems"
+                         (toggle)="onFilterChange('diagnoses', $event)"></app-checkbox-filter>
+    <app-checkbox-filter [groupName]="'Wards'" [items]="wardsItems"
+                         (toggle)="onFilterChange('wards', $event)"></app-checkbox-filter>
+  </div>
+</div>

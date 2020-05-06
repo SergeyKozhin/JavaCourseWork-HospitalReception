@@ -20,6 +20,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { PatientTableComponent } from './patient-table/patient-table.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,22 +31,25 @@ import { MatExpansionModule } from '@angular/material/expansion';
     WardListComponent,
     PatientListComponent,
     NavigationComponent,
-    PatientTableComponent
+    PatientTableComponent,
+    CheckboxFilterComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        LayoutModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        AppRoutingModule,
-        MatTableModule,
-        MatExpansionModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    AppRoutingModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    FormsModule,
+  ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true}

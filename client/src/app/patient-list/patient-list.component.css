@@ -1,0 +1,11 @@
+.table-and-filters {
+  display: flex;
+  flex-direction: row;
+}
+.filters {
+  flex: 2;
+  margin-left: 20px;
+}
+.table {
+  flex: 8;
+}
