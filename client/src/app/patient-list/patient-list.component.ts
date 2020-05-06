@@ -63,9 +63,22 @@ export class PatientListComponent implements OnInit {
       .subscribe(params => {
         let newParams: PatientSearchParameters;
         if (field === 'diagnoses') {
-          newParams = {...params, diagnosis: selected};
+          newParams = { ...params, diagnosis: selected };
         } else {
-          newParams = {...params, ward: selected};
+          newParams = { ...params, ward: selected };
+        }
+        this.router.navigate(['/patients'], { queryParams: newParams }).finally();
+      });
+  }
+
+  onSearch(name: string) {
+    this.params$
+      .subscribe(params => {
+        let newParams: PatientSearchParameters;
+        if (name) {
+          newParams = { ...params, name };
+        } else {
+          newParams = { ...params, name: null };
         }
         this.router.navigate(['/patients'], { queryParams: newParams }).finally();
       });

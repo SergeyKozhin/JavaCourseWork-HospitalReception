@@ -1,4 +1,16 @@
 <h2 matLine>Patients</h2>
+<div class="search">
+  <mat-form-field class="search-field">
+    <mat-label>Search</mat-label>
+    <input #search matInput placeholder="ex. John Doe" (keyup.enter)="onSearch(search.value)">
+  </mat-form-field>
+  <div>
+    <button mat-icon-button (click)="onSearch(search.value)">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>
+
 <div class="table-and-filters">
   <div class="table">
     <app-patient-table [params]="(params$ | async)"></app-patient-table>

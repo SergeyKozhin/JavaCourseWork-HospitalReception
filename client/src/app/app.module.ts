@@ -23,6 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { FormsModule } from '@angular/forms';
     MatExpansionModule,
     MatCheckboxModule,
     FormsModule,
+    MatInputModule,
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
