@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoggingService } from './logging.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Ward } from './Ward';
+import { Ward } from '../doamain/Ward';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({

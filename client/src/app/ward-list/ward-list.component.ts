@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WardService } from '../ward.service';
-import { Ward } from '../Ward';
+import { WardService } from '../services/ward.service';
+import { Ward } from '../doamain/Ward';
 
 @Component({
   selector: 'app-ward-list',

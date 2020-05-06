@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoggingService } from './logging.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Patient } from './Patient';
+import { Patient } from '../doamain/Patient';
 import { catchError, tap } from 'rxjs/operators';
 import { PatientSearchParameters } from './PatientSearchParameters';
 

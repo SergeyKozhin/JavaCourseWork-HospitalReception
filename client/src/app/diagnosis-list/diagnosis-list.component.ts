@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Diagnosis } from '../Diagnosis';
-import { DiagnosisService } from '../diagnosis.service';
+import { Diagnosis } from '../doamain/Diagnosis';
+import { DiagnosisService } from '../services/diagnosis.service';
 
 @Component({
   selector: 'app-diagnosis-list',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Patient } from '../Patient';
-import { PatientService } from '../patient.service';
-import { PatientSearchParameters } from '../PatientSearchParameters';
+import { Patient } from '../doamain/Patient';
+import { PatientService } from '../services/patient.service';
+import { PatientSearchParameters } from '../services/PatientSearchParameters';
 
 @Component({
   selector: 'app-patient-table',

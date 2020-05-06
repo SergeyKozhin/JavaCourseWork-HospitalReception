@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PatientSearchParameters } from '../PatientSearchParameters';
+import { PatientSearchParameters } from '../services/PatientSearchParameters';
 
 @Component({
   selector: 'app-patient-list',
