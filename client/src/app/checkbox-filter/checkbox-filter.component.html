@@ -7,4 +7,5 @@
       {{item.label}}
     </mat-checkbox>
   </div>
+  <button mat-stroked-button color="primary" [disabled]="!hasChecked()" (click)="clearSelection()">Clear</button>
 </mat-expansion-panel>

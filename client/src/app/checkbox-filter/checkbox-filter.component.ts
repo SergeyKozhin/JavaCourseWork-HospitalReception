@@ -7,8 +7,8 @@ import {
   Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {CheckboxItem} from './CheckboxItem';
-import {MatExpansionPanel} from '@angular/material/expansion';
+import { CheckboxItem } from './CheckboxItem';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-checkbox-filter',
@@ -29,7 +29,7 @@ export class CheckboxFilterComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.inputItems) {
-      if (this.items == undefined) {
+      if (this.items === undefined) {
         this.items = changes.inputItems.currentValue;
       }
       for (let i = 0; i < this.items.length; i++) {
@@ -40,7 +40,7 @@ export class CheckboxFilterComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     if (this.items) {
-      if (this.items.find(item => item.checked)) {
+      if (this.hasChecked()) {
         this.panel.open();
       }
       this.cd.detectChanges();
@@ -49,5 +49,16 @@ export class CheckboxFilterComponent implements AfterViewInit, OnChanges {
 
   onToggle() {
     this.toggle.emit(this.items.filter(item => item.checked).map(item => item.value));
+  }
+
+  clearSelection() {
+    for (const item of this.items) {
+      item.checked = false;
+    }
+    this.onToggle();
+  }
+
+  hasChecked(): boolean {
+    return this.items.find(item => item.checked) !== undefined;
   }
 }
