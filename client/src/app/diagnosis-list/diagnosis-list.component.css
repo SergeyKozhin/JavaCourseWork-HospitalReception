@@ -2,3 +2,19 @@ mat-list-item {
   cursor: pointer;
 }
 
+mat-list {
+  max-height: 70%;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+mat-list::-webkit-scrollbar {
+  display: none;
+}
+
+button {
+  margin: 10px 0;
+}
+
+
+

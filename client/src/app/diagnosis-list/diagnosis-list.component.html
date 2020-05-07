@@ -1,8 +1,13 @@
 <h2 mat-line>Diagnoses</h2>
 <mat-list>
-  <mat-list-item *ngFor="let diagnosis of diagnoses; last as last"
-  [routerLink]="['/patients']" [queryParams]="{ diagnosis: diagnosis.id.toString() }" >
-    <h4 mat-line>{{diagnosis.name}}</h4>
+  <mat-list-item [attr.scroll]="diagnosis.id == scrollTarget"
+                 *ngFor="let diagnosis of diagnoses; last as last">
+    <h4 mat-line [routerLink]="['/patients']"
+        [queryParams]="{ diagnosis: diagnosis.id.toString() }">{{diagnosis.name}}</h4>
+    <button mat-icon-button color="warn">
+      <mat-icon (click)="deleteDiagnosis(diagnosis)">close</mat-icon>
+    </button>
     <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
   </mat-list-item>
 </mat-list>
+<button mat-flat-button (click)="addDiagnosis()">Add</button>

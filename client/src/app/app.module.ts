@@ -22,8 +22,11 @@ import { PatientTableComponent } from './patient-table/patient-table.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { DiagnosisFormComponent } from './forms/diagnosis-form/diagnosis-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { MatInputModule } from '@angular/material/input';
     PatientListComponent,
     NavigationComponent,
     PatientTableComponent,
-    CheckboxFilterComponent
+    CheckboxFilterComponent,
+    DiagnosisFormComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +55,9 @@ import { MatInputModule } from '@angular/material/input';
     MatCheckboxModule,
     FormsModule,
     MatInputModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    A11yModule,
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
