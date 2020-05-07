@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DiagnosisFormComponent implements OnInit {
   form = this.fb.group({
+    id: [''],
     name: ['', Validators.required]
   });
   type: 'add' | 'update';

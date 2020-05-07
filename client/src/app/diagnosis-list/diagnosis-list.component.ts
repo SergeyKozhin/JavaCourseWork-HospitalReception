@@ -46,4 +46,17 @@ export class DiagnosisListComponent implements OnInit {
     this.diagnosisService.deleteDiagnosis(diagnosis)
       .subscribe(_ => this.diagnoses = this.diagnoses.filter(el => el !== diagnosis));
   }
+
+  updateDiagnosis(diagnosis: Diagnosis) {
+    const dialogRef = this.dialog.open(DiagnosisFormComponent, {
+      data: diagnosis
+    });
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data) {
+          this.diagnosisService.updateDiagnosis(data)
+            .subscribe(_ => Object.assign(this.diagnoses.find(el => el.id === data.id), data));
+        }
+      });
+  }
 }

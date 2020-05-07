@@ -4,6 +4,9 @@
                  *ngFor="let diagnosis of diagnoses; last as last">
     <h4 mat-line [routerLink]="['/patients']"
         [queryParams]="{ diagnosis: diagnosis.id.toString() }">{{diagnosis.name}}</h4>
+    <button mat-icon-button color="primary">
+      <mat-icon (click)="updateDiagnosis(diagnosis)">edit</mat-icon>
+    </button>
     <button mat-icon-button color="warn">
       <mat-icon (click)="deleteDiagnosis(diagnosis)">close</mat-icon>
     </button>
