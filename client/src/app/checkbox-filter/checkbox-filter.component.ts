@@ -1,27 +1,50 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { CheckboxItem } from './CheckboxItem';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input, OnChanges,
+  Output, SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import {CheckboxItem} from './CheckboxItem';
+import {MatExpansionPanel} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-checkbox-filter',
   templateUrl: './checkbox-filter.component.html',
   styleUrls: ['./checkbox-filter.component.css']
 })
-export class CheckboxFilterComponent implements AfterViewInit {
+export class CheckboxFilterComponent implements AfterViewInit, OnChanges {
   @ViewChild('panel') panel: MatExpansionPanel;
   @Input() groupName: string;
-  @Input() items: CheckboxItem[];
+  @Input() inputItems: CheckboxItem[];
   @Output() toggle = new EventEmitter<string[]>();
+  items: CheckboxItem[];
 
   constructor(
     private cd: ChangeDetectorRef
-  ) { }
+  ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.inputItems) {
+      if (this.items == undefined) {
+        this.items = changes.inputItems.currentValue;
+      }
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].checked = changes.inputItems.currentValue[i].checked;
+      }
+    }
+  }
 
   ngAfterViewInit(): void {
-    if (this.items.find(item => item.checked)) {
-      this.panel.open();
+    if (this.items) {
+      if (this.items.find(item => item.checked)) {
+        this.panel.open();
+      }
+      this.cd.detectChanges();
     }
-    this.cd.detectChanges();
   }
 
   onToggle() {
