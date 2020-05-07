@@ -1,4 +1,4 @@
 export interface Diagnosis {
-  id: bigint;
+  id: number;
   name: string;
 }

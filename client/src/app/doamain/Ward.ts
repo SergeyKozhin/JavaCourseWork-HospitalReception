@@ -1,5 +1,5 @@
 export interface Ward {
-  id: bigint;
+  id: number;
   name: string;
   maxCount: number;
 }
