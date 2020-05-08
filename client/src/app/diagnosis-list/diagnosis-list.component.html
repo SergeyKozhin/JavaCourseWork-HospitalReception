@@ -1,14 +1,21 @@
 <h2 mat-line>Diagnoses</h2>
 <mat-list>
-  <mat-list-item [attr.scroll]="diagnosis.id == scrollTarget"
-                 *ngFor="let diagnosis of diagnoses; last as last">
-    <h4 mat-line [routerLink]="['/patients']"
-        [queryParams]="{ diagnosis: diagnosis.id.toString() }">{{diagnosis.name}}</h4>
-    <button mat-icon-button color="primary">
-      <mat-icon (click)="updateDiagnosis(diagnosis)">edit</mat-icon>
+  <mat-list-item *ngFor="let diagnosis of diagnoses; last as last"
+                 [routerLink]="['/patients']"
+                 [queryParams]="{ diagnosis: diagnosis.id.toString() }">
+    <h4 mat-line>{{diagnosis.name}}</h4>
+    <h4 mat-line>Patient count: {{patientCount.get(diagnosis.id)}}</h4>
+    <button mat-icon-button color="primary"
+            (click)="updateDiagnosis(diagnosis); $event.stopPropagation()">
+      <mat-icon matTooltip="Edit diagnosis">edit</mat-icon>
     </button>
-    <button mat-icon-button color="warn">
-      <mat-icon (click)="deleteDiagnosis(diagnosis)">close</mat-icon>
+    <button mat-icon-button color="warn"
+            (click)="deleteDiagnosis(diagnosis); $event.stopPropagation()"
+            [disabled]="(patientCount.get(diagnosis.id) != 0)">
+      <mat-icon
+        [matTooltip]="((patientCount.get(diagnosis.id)) != 0) ? 'Can\'t delete diagnosis with patients' : 'Delete diagnosis'">
+        close
+      </mat-icon>
     </button>
     <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
   </mat-list-item>

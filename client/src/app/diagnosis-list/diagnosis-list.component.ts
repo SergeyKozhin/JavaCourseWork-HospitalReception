@@ -1,8 +1,9 @@
-import { Component, OnInit, } from '@angular/core';
-import { Diagnosis } from '../doamain/Diagnosis';
-import { DiagnosisService } from '../services/diagnosis.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.component';
+import {Component, OnInit,} from '@angular/core';
+import {Diagnosis} from '../doamain/Diagnosis';
+import {DiagnosisService} from '../services/diagnosis.service';
+import {MatDialog} from '@angular/material/dialog';
+import {DiagnosisFormComponent} from '../forms/diagnosis-form/diagnosis-form.component';
+import {PatientService} from "../services/patient.service";
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -11,12 +12,14 @@ import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.c
 })
 export class DiagnosisListComponent implements OnInit {
   diagnoses: Diagnosis[];
-  scrollTarget = -1;
+  patientCount? = new Map<number, number>();
 
   constructor(
     private diagnosisService: DiagnosisService,
+    private patientService: PatientService,
     public dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.update();
@@ -24,7 +27,16 @@ export class DiagnosisListComponent implements OnInit {
 
   update() {
     this.diagnosisService.getDiagnoses()
-      .subscribe(diagnoses => this.diagnoses = diagnoses);
+      .subscribe(diagnoses => {
+        this.diagnoses = diagnoses
+
+        this.patientService.getPatients({})
+          .subscribe(patients => {
+            for (const diagnosis of diagnoses) {
+              this.patientCount.set(diagnosis.id, patients.filter(patient => patient.diagnosis.id == diagnosis.id).length);
+            }
+          })
+      });
   }
 
   addDiagnosis() {
@@ -37,6 +49,7 @@ export class DiagnosisListComponent implements OnInit {
           this.diagnosisService.addDiagnosis(data)
             .subscribe(newDiagnosis => {
               this.diagnoses.push(newDiagnosis);
+              this.patientCount.set(newDiagnosis.id, 0);
             });
         }
       });

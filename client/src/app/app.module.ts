@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { DiagnosisFormComponent } from './forms/diagnosis-form/diagnosis-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { A11yModule } from '@angular/cdk/a11y';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -39,26 +40,27 @@ import { A11yModule } from '@angular/cdk/a11y';
     CheckboxFilterComponent,
     DiagnosisFormComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    AppRoutingModule,
-    MatTableModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    FormsModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    A11yModule,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        AppRoutingModule,
+        MatTableModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        A11yModule,
+        MatTooltipModule,
+    ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true}
