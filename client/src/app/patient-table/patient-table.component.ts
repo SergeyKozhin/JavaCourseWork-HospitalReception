@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Patient} from '../doamain/Patient';
-import {PatientService} from '../services/patient.service';
-import {PatientSearchParameters} from '../services/PatientSearchParameters';
-import {Sort} from "@angular/material/sort";
-import {PagingParameters} from "../services/PagingParameters";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Patient } from '../doamain/Patient';
+import { PatientService } from '../services/patient.service';
+import { PatientSearchParameters } from '../services/PatientSearchParameters';
+import { MatSort, MatSortable, Sort } from '@angular/material/sort';
+import { PagingParameters } from '../services/PagingParameters';
 
 @Component({
   selector: 'app-patient-table',
@@ -11,6 +11,8 @@ import {PagingParameters} from "../services/PagingParameters";
   styleUrls: ['./patient-table.component.css']
 })
 export class PatientTableComponent implements OnInit {
+  @ViewChild(MatSort, { static: true }) matSort: MatSort;
+
   displayedColumns: string[] = ['firstName', 'lastName', 'fatherName', 'diagnosis', 'ward'];
   patients: Patient[];
   _params: PatientSearchParameters & PagingParameters;
@@ -24,6 +26,10 @@ export class PatientTableComponent implements OnInit {
       this._params = params;
       this.patientService.getPatientsPage(params)
         .subscribe(page => this.patients = page.content);
+
+      if (!params.sort) {
+        this.matSort.sort({ id: '', start: 'asc', disableClear: false });
+      }
     }
   }
 
@@ -34,15 +40,21 @@ export class PatientTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.params.sort) {
+      const sortParams = this.params.sort.split(',');
+      const id = sortParams[0];
+      const start = (sortParams[1] === 'asc') ? 'asc' : 'desc';
+      this.matSort.sort({ id, start } as MatSortable);
+    }
   }
 
   onSortChange(sort: Sort) {
-    let newParams = {
+    const newParams = {
       ...this.params,
       sort: `${sort.active},${sort.direction}`
     };
 
-    if (sort.direction == '') {
+    if (!sort.active || sort.direction === '') {
       delete newParams.sort;
     }
 
