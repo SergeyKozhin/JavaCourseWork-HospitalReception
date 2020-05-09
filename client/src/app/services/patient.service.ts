@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { Patient } from '../doamain/Patient';
 import { catchError, tap } from 'rxjs/operators';
 import { PatientSearchParameters } from './PatientSearchParameters';
+import {PagingParameters} from "./PagingParameters";
+import {Page} from "../doamain/Page";
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +25,15 @@ export class PatientService {
     private http: HttpClient
   ) { }
 
-  getPatients(params: PatientSearchParameters): Observable<Patient[]> {
+  getPatientsPage(params: PatientSearchParameters & PagingParameters) {
+    return this.http.get<Page<Patient>>(`${this.patientUrl}/page`, { params: params as any })
+      .pipe(
+        tap(page => this.logger.log(`fetched patients page number ${page.number}`)),
+        catchError(this.handleError<Page<Patient>>('getPatientPage'))
+      );
+  }
 
+  getPatients(params: PatientSearchParameters): Observable<Patient[]> {
     return this.http.get<Patient[]>(this.patientUrl, { params: params as any })
       .pipe(
         tap(_ => this.logger.log('fetched patients')),
