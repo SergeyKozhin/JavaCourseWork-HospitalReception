@@ -28,7 +28,6 @@ export class PatientTableComponent implements OnInit {
 
   @Input('params')
   set params(params: PatientSearchParameters & PagingParameters) {
-    console.log(JSON.stringify(params));
     if (JSON.stringify(this._params) !== JSON.stringify(params)) {
       this._params = params;
       this.patientService.getPatientsPage(params)

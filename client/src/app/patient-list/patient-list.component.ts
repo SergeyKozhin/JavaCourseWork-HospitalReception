@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PatientSearchParameters} from '../services/PatientSearchParameters';
-import {Observable} from 'rxjs';
-import {DiagnosisService} from '../services/diagnosis.service';
-import {CheckboxItem} from '../checkbox-filter/CheckboxItem';
-import {WardService} from '../services/ward.service';
-import {PagingParameters} from '../services/PagingParameters';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PatientSearchParameters } from '../services/PatientSearchParameters';
+import { Observable } from 'rxjs';
+import { DiagnosisService } from '../services/diagnosis.service';
+import { CheckboxItem } from '../checkbox-filter/CheckboxItem';
+import { WardService } from '../services/ward.service';
+import { PagingParameters } from '../services/PagingParameters';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patient-list',
@@ -14,9 +15,10 @@ import {PagingParameters} from '../services/PagingParameters';
 })
 export class PatientListComponent implements OnInit {
   search: string;
-  params$: Observable<PatientSearchParameters>;
-  diagnosesItems: CheckboxItem[];
-  wardsItems: CheckboxItem[];
+  params$: Observable<PatientSearchParameters & PagingParameters>;
+  params: PatientSearchParameters & PagingParameters;
+  diagnosesItems$: Observable<CheckboxItem[]>;
+  wardsItems$: Observable<CheckboxItem[]>;
 
   constructor(
     private diagnosisService: DiagnosisService,
@@ -30,6 +32,7 @@ export class PatientListComponent implements OnInit {
 
     this.params$
       .subscribe(params => {
+        this.params = params;
         if (params.name) {
           this.search = params.name;
         }
@@ -37,68 +40,60 @@ export class PatientListComponent implements OnInit {
 
     this.diagnosisService.getDiagnoses()
       .subscribe(diagnoses => {
-        this.diagnosesItems = diagnoses.map(diagnosis => {
-          return {
-            value: diagnosis.id.toString(),
-            label: diagnosis.name
-          };
-        });
+        const diagnosesItems = diagnoses.map(diagnosis => ({
+          value: diagnosis.id.toString(),
+          label: diagnosis.name
+        }));
 
-        this.params$
-          .subscribe(params => {
-            if (params.diagnosis) {
-              this.diagnosesItems = this.diagnosesItems.map(item => ({
+
+        this.diagnosesItems$ = this.params$
+          .pipe(
+            map(params =>
+              diagnosesItems.map(item => ({
                 ...item,
-                checked: params.diagnosis.includes(item.value)
-              }));
-            }
-          })
-        ;
+                checked: params.diagnosis?.includes(item.value)
+              }))
+            )
+          );
       });
 
     this.wardService.getWards()
       .subscribe(wards => {
-        this.wardsItems = wards.map(ward => {
+        const wardsItems = wards.map(ward => {
           return {
             value: ward.id.toString(),
             label: ward.name
           };
         });
 
-        this.params$
-          .subscribe(params => {
-            if (params.ward) {
-              this.wardsItems = this.wardsItems.map(item => ({
+        this.wardsItems$ = this.params$
+          .pipe(
+            map(params => {
+              return wardsItems.map(item => ({
                 ...item,
-                checked: params.ward.includes(item.value)
+                checked: params.ward?.includes(item.value)
               }));
-            }
-          });
+            })
+          );
       });
   }
 
   onFilterChange(field: 'diagnoses' | 'wards', selected: string[]) {
-    this.params$
-      .subscribe(params => {
-        let newParams: PatientSearchParameters;
-        if (field === 'diagnoses') {
-          newParams = {...params, diagnosis: selected};
-        } else {
-          newParams = {...params, ward: selected};
-        }
-        this.router.navigate(['/patients'], {queryParams: newParams}).finally();
-      });
+    let newParams: PatientSearchParameters;
+    if (field === 'diagnoses') {
+      newParams = { ...this.params, diagnosis: selected };
+    } else {
+      newParams = { ...this.params, ward: selected };
+    }
+    this.router.navigate(['/patients'], { queryParams: newParams }).finally();
   }
 
   onSearch() {
-    this.params$
-      .subscribe(params => {
-        const newParams = {...params, name: (this.search) ? this.search : null};
-        this.router.navigate(['/patients'], {queryParams: newParams}).finally();
-      });
+    const newParams = { ...this.params, name: (this.search) ? this.search : null };
+    this.router.navigate(['/patients'], { queryParams: newParams }).finally();
   }
 
   onParamsChange(params: PatientSearchParameters & PagingParameters) {
-    this.router.navigate(['/patients'], {queryParams: params}).finally();
+    this.router.navigate(['/patients'], { queryParams: params }).finally();
   }
 }
