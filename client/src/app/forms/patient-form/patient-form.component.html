@@ -5,7 +5,7 @@
   <mat-form-field>
     <mat-label>First name</mat-label>
     <input matInput type="text" [formControlName]="'firstName'" required maxlength="20">
-    <mat-hint align="end">{{firstName.value.length}}/50</mat-hint>
+    <mat-hint align="end">{{firstName.value.length}}/20</mat-hint>
     <mat-error *ngIf="firstName.hasError('required')">
       First name is required
     </mat-error>
@@ -15,7 +15,7 @@
   <mat-form-field>
     <mat-label>Last name</mat-label>
     <input matInput type="text" [formControlName]="'lastName'" required maxlength="20">
-    <mat-hint align="end">{{lastName.value.length}}/50</mat-hint>
+    <mat-hint align="end">{{lastName.value.length}}/20</mat-hint>
     <mat-error *ngIf="lastName.hasError('required')">
       Last name is required
     </mat-error>
@@ -25,13 +25,13 @@
   <mat-form-field>
     <mat-label>Father name</mat-label>
     <input matInput type="text" [formControlName]="'fatherName'" maxlength="20">
-    <mat-hint align="end">{{fatherName.value.length}}/50</mat-hint>
+    <mat-hint align="end">{{fatherName.value.length}}/20</mat-hint>
   </mat-form-field>
   <br>
 
   <mat-form-field>
     <mat-label>Diagnosis</mat-label>
-    <mat-select required>
+    <mat-select [formControlName]="'diagnosis'"  required>
       <mat-option *ngFor="let diagnosis of diagnoses" [value]="diagnosis">
         {{diagnosis.name}}
       </mat-option>
@@ -44,7 +44,7 @@
 
   <mat-form-field>
     <mat-label>Ward</mat-label>
-    <mat-select required>
+    <mat-select [formControlName]="'ward'"  required>
       <mat-option *ngFor="let ward of wards" [value]="ward">
         {{ward.name}}
       </mat-option>

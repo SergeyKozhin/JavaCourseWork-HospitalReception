@@ -5,6 +5,9 @@ import { PatientSearchParameters } from '../services/PatientSearchParameters';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { PagingParameters } from '../services/PagingParameters';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { PatientFormComponent } from '../forms/patient-form/patient-form.component';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-patient-table',
@@ -12,6 +15,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   styleUrls: ['./patient-table.component.css']
 })
 export class PatientTableComponent implements OnInit {
+  @ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -51,7 +55,8 @@ export class PatientTableComponent implements OnInit {
   @Output() paramsChange = new EventEmitter<PatientSearchParameters & PagingParameters>();
 
   constructor(
-    private patientService: PatientService
+    private patientService: PatientService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +85,6 @@ export class PatientTableComponent implements OnInit {
     if (!sort.active || sort.direction === '') {
       delete newParams.sort;
     }
-
     this.params = newParams;
   }
 
@@ -90,5 +94,33 @@ export class PatientTableComponent implements OnInit {
       page: event.pageIndex.toString(),
       size: event.pageSize.toString()
     };
+  }
+
+  addPatient() {
+    const data: {
+      diagnosis?: number,
+      ward?: number
+    } = {};
+
+    if (this.params.diagnosis && this.params.diagnosis.length === 1) {
+      data.diagnosis = parseInt(this.params.diagnosis[0], 10);
+    }
+
+    console.log(this.params.ward);
+    if (this.params.ward && this.params.ward.length === 1) {
+      data.ward = parseInt(this.params.ward[0], 10);
+    }
+
+    const dialogRef = this.dialog.open(PatientFormComponent, { data });
+    dialogRef.afterClosed()
+      .subscribe(patient => {
+        if (patient) {
+          this.patientService.addPatient(patient)
+            .subscribe(newPatient => {
+              this.patients.push(newPatient);
+              this.table.renderRows();
+            });
+        }
+      });
   }
 }
