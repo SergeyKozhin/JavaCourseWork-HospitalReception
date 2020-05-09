@@ -17,7 +17,7 @@ export class DiagnosisFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Diagnosis | undefined
+    @Inject(MAT_DIALOG_DATA) public data: Diagnosis
   ) { }
 
   ngOnInit(): void {

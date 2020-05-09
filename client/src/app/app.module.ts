@@ -30,6 +30,8 @@ import { A11yModule } from '@angular/cdk/a11y';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSortModule} from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { PatientFormComponent } from './forms/patient-form/patient-form.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -40,31 +42,33 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     NavigationComponent,
     PatientTableComponent,
     CheckboxFilterComponent,
-    DiagnosisFormComponent
+    DiagnosisFormComponent,
+    PatientFormComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        LayoutModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        AppRoutingModule,
-        MatTableModule,
-        MatExpansionModule,
-        MatCheckboxModule,
-        FormsModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        A11yModule,
-        MatTooltipModule,
-        MatSortModule,
-        MatPaginatorModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    AppRoutingModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    A11yModule,
+    MatTooltipModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSelectModule,
+  ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true}
