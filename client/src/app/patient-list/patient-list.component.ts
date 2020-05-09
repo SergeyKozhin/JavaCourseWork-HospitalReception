@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {DiagnosisService} from '../services/diagnosis.service';
 import {CheckboxItem} from '../checkbox-filter/CheckboxItem';
 import {WardService} from '../services/ward.service';
-import {PagingParameters} from "../services/PagingParameters";
+import {PagingParameters} from '../services/PagingParameters';
 
 @Component({
   selector: 'app-patient-list',
@@ -23,8 +23,7 @@ export class PatientListComponent implements OnInit {
     private wardService: WardService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.params$ = this.route.queryParams;
