@@ -1,5 +1,5 @@
-import {Diagnosis} from './Diagnosis';
-import {Ward} from './Ward';
+import { Diagnosis } from './Diagnosis';
+import { Ward } from './Ward';
 
 export interface Patient {
   id: number;

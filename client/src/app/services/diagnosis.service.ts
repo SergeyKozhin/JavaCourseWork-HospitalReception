@@ -57,7 +57,7 @@ export class DiagnosisService {
   deleteDiagnosis(diagnosis: Diagnosis | bigint): Observable<Diagnosis> {
     const id = typeof diagnosis === 'bigint' ? diagnosis : diagnosis.id;
 
-    return this.http.delete<any>(`${this.diagnosisUrl}/${id}` )
+    return this.http.delete<any>(`${this.diagnosisUrl}/${id}`)
       .pipe(
         tap(_ => this.logger.log(`deleted diagnosis id=${id}`)),
         catchError(this.handleError<any>('deleteDiagnosis'))

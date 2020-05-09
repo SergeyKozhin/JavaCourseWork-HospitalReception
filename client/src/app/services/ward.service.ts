@@ -57,7 +57,7 @@ export class WardService {
   deleteWard(ward: Ward | bigint): Observable<Ward> {
     const id = typeof ward === 'bigint' ? ward : ward.id;
 
-    return this.http.delete<any>(`${this.wardUrl}/${id}` )
+    return this.http.delete<any>(`${this.wardUrl}/${id}`)
       .pipe(
         tap(_ => this.logger.log(`deleted ward id=${id}`)),
         catchError(this.handleError<any>('deleteWard'))

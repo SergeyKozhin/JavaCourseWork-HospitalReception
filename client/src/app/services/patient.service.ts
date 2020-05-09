@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { Patient } from '../doamain/Patient';
 import { catchError, tap } from 'rxjs/operators';
 import { PatientSearchParameters } from './PatientSearchParameters';
-import {PagingParameters} from "./PagingParameters";
-import {Page} from "../doamain/Page";
+import { PagingParameters } from './PagingParameters';
+import { Page } from '../doamain/Page';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +68,7 @@ export class PatientService {
   deletePatient(patient: Patient | bigint): Observable<Patient> {
     const id = typeof patient === 'bigint' ? patient : patient.id;
 
-    return this.http.delete<any>(`${this.patientUrl}/${id}` )
+    return this.http.delete<any>(`${this.patientUrl}/${id}`)
       .pipe(
         tap(_ => this.logger.log(`deleted patient id=${id}`)),
         catchError(this.handleError<any>('deletePatient'))

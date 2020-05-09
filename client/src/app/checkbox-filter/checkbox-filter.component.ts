@@ -7,8 +7,8 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {CheckboxItem} from './CheckboxItem';
-import {MatExpansionPanel} from '@angular/material/expansion';
+import { CheckboxItem } from './CheckboxItem';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-checkbox-filter',

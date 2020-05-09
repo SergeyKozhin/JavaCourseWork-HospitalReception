@@ -1,9 +1,9 @@
-import {Component, OnInit,} from '@angular/core';
-import {Diagnosis} from '../doamain/Diagnosis';
-import {DiagnosisService} from '../services/diagnosis.service';
-import {MatDialog} from '@angular/material/dialog';
-import {DiagnosisFormComponent} from '../forms/diagnosis-form/diagnosis-form.component';
-import {PatientService} from "../services/patient.service";
+import { Component, OnInit } from '@angular/core';
+import { Diagnosis } from '../doamain/Diagnosis';
+import { DiagnosisService } from '../services/diagnosis.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.component';
+import { PatientService } from '../services/patient.service';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -12,7 +12,7 @@ import {PatientService} from "../services/patient.service";
 })
 export class DiagnosisListComponent implements OnInit {
   diagnoses: Diagnosis[];
-  patientCount? = new Map<number, number>();
+  patientCount = new Map<number, number>();
 
   constructor(
     private diagnosisService: DiagnosisService,
@@ -28,14 +28,14 @@ export class DiagnosisListComponent implements OnInit {
   update() {
     this.diagnosisService.getDiagnoses()
       .subscribe(diagnoses => {
-        this.diagnoses = diagnoses
+        this.diagnoses = diagnoses;
 
         this.patientService.getPatients({})
           .subscribe(patients => {
             for (const diagnosis of diagnoses) {
-              this.patientCount.set(diagnosis.id, patients.filter(patient => patient.diagnosis.id == diagnosis.id).length);
+              this.patientCount.set(diagnosis.id, patients.filter(patient => patient.diagnosis.id === diagnosis.id).length);
             }
-          })
+          });
       });
   }
 
