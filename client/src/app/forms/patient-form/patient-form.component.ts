@@ -14,6 +14,7 @@ import { Ward } from '../../doamain/Ward';
 export class PatientFormComponent implements OnInit {
 
   form = this.fb.group({
+    id: [''],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     fatherName: [''],

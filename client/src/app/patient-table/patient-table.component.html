@@ -27,9 +27,9 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef>
-      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button color="warn"><mat-icon>close</mat-icon></button>
+    <td mat-cell *matCellDef="let patient">
+      <button mat-icon-button color="primary" (click)="editPatient(patient)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="deletePatient(patient)"><mat-icon>close</mat-icon></button>
     </td>
   </ng-container>
 

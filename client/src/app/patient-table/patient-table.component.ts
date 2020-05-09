@@ -118,14 +118,39 @@ export class PatientTableComponent implements OnInit {
       data.ward = parseInt(ward, 10);
     }
 
-    const dialogRef = this.dialog.open(PatientFormComponent, { data });
-    dialogRef.afterClosed()
+    this.dialog.open(PatientFormComponent, { data })
+      .afterClosed()
       .subscribe(patient => {
         if (patient) {
           this.patientService.addPatient(patient)
             .subscribe(newPatient => {
               this.patients.push(newPatient);
               this.table.renderRows();
+            });
+        }
+      });
+  }
+
+  deletePatient(patient: Patient) {
+    this.patientService.deletePatient(patient)
+      .subscribe(_ => {
+        this.patients = this.patients.filter(el => el.id !== patient.id);
+        this.table.renderRows();
+      });
+  }
+
+
+  editPatient(patient: Patient) {
+    this.dialog.open(PatientFormComponent, {
+      data: {
+        ...patient, diagnosis: patient.diagnosis.id, ward: patient.ward.id
+      }
+    }).afterClosed()
+      .subscribe(data => {
+        if (data) {
+          this.patientService.updatePatient(data)
+            .subscribe(_ => {
+              Object.assign(this.patients.find(el => el.id === data.id), data);
             });
         }
       });
