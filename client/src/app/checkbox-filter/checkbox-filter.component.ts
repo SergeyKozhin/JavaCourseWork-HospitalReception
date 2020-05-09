@@ -19,15 +19,20 @@ export class CheckboxFilterComponent implements AfterViewInit {
   @ViewChild('panel') panel: MatExpansionPanel;
   @Input() groupName: string;
   @Output() toggle = new EventEmitter<string[]>();
-  items: CheckboxItem[];
+  _items: CheckboxItem[];
+  get items() {
+    return this._items;
+  }
 
-  @Input('inputItems')
-  set inputItems(inputItems: CheckboxItem[]) {
-    if (this.items === undefined) {
-      this.items = inputItems;
-    }
-    for (let i = 0; i < this.items.length; i++) {
-      this.items[i].checked = inputItems[i].checked;
+  @Input('items')
+  set inputItems(items: CheckboxItem[]) {
+    if (JSON.stringify(this._items) !== JSON.stringify(items)) {
+      if (this._items === undefined) {
+        this._items = items;
+      }
+      for (let i = 0; i < this._items.length; i++) {
+        this._items[i].checked = items[i].checked;
+      }
     }
   }
 
