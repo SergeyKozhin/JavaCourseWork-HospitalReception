@@ -25,7 +25,20 @@
     <td mat-cell *matCellDef="let patient">{{patient.ward.name}}</td>
   </ng-container>
 
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef>
+      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn"><mat-icon>close</mat-icon></button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[1, 2, 10, 20]" (page)="onPageChange($event)"></mat-paginator>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button mat-flat-button color="primary">Add</button>
+    <mat-paginator [pageSizeOptions]="[1, 2, 10, 20]" (page)="onPageChange($event)"></mat-paginator>
+  </mat-toolbar-row>
+</mat-toolbar>

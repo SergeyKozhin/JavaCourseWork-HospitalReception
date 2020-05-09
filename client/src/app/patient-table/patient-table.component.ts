@@ -15,7 +15,7 @@ export class PatientTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'fatherName', 'diagnosis', 'ward'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'fatherName', 'diagnosis', 'ward', 'actions'];
   patients: Patient[];
   _params: PatientSearchParameters & PagingParameters;
   get params() {

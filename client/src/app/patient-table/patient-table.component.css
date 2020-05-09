@@ -1,3 +1,15 @@
 table {
   width: 100%;
 }
+
+mat-toolbar {
+  background: white;
+}
+
+mat-toolbar-row {
+  justify-content: space-between;
+}
+
+mat-paginator {
+  background: inherit;
+}
