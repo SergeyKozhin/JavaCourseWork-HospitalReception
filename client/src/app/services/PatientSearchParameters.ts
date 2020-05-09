@@ -1,5 +1,5 @@
 export interface PatientSearchParameters {
   name?: string;
-  diagnosis?: string[];
-  ward?: string[];
+  diagnosis?: string[] | string;
+  ward?: string[] | string;
 }

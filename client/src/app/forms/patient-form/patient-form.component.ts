@@ -33,7 +33,6 @@ export class PatientFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(JSON.stringify(this.form.value));
     this.form.patchValue(this.data);
 
     this.type = (this.data.id === undefined) ? 'add' : 'update';

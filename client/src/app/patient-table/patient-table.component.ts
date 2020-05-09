@@ -102,13 +102,20 @@ export class PatientTableComponent implements OnInit {
       ward?: number
     } = {};
 
-    if (this.params.diagnosis && this.params.diagnosis.length === 1) {
-      data.diagnosis = parseInt(this.params.diagnosis[0], 10);
+    if (this.params.diagnosis) {
+      const diagnosis = (typeof this.params.diagnosis === 'string') ?
+        this.params.diagnosis :
+        (this.params.diagnosis.length === 1) ? this.params.diagnosis[0] : '';
+
+      data.diagnosis = parseInt(diagnosis, 10);
     }
 
-    console.log(this.params.ward);
-    if (this.params.ward && this.params.ward.length === 1) {
-      data.ward = parseInt(this.params.ward[0], 10);
+    if (this.params.ward) {
+      const ward = (typeof this.params.ward === 'string') ?
+        this.params.ward :
+        (this.params.ward.length === 1) ? this.params.ward[0] : '';
+
+      data.ward = parseInt(ward, 10);
     }
 
     const dialogRef = this.dialog.open(PatientFormComponent, { data });
