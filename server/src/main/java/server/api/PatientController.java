@@ -2,6 +2,9 @@ package server.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,6 +39,17 @@ public class PatientController {
     public PatientController(PatientRepository patientRepo, WardRepository wardRepo) {
         this.patientRepo = patientRepo;
         this.wardRepo = wardRepo;
+    }
+
+    @GetMapping("/page")
+    public Page<Patient> patientsPage(
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") List<Long> diagnosis,
+            @RequestParam(required = false, defaultValue = "") List<Long> ward,
+            Pageable pageable) {
+        PatientSpecification specification = new PatientSpecification(name, diagnosis, ward);
+
+        return patientRepo.findAll(specification, pageable);
     }
 
     @GetMapping
