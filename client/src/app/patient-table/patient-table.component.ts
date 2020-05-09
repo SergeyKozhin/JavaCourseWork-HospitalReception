@@ -4,6 +4,7 @@ import { PatientService } from '../services/patient.service';
 import { PatientSearchParameters } from '../services/PatientSearchParameters';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { PagingParameters } from '../services/PagingParameters';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-patient-table',
@@ -12,6 +13,7 @@ import { PagingParameters } from '../services/PagingParameters';
 })
 export class PatientTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   displayedColumns: string[] = ['firstName', 'lastName', 'fatherName', 'diagnosis', 'ward'];
   patients: Patient[];
@@ -25,11 +27,24 @@ export class PatientTableComponent implements OnInit {
     if (JSON.stringify(this._params) !== JSON.stringify(params)) {
       this._params = params;
       this.patientService.getPatientsPage(params)
-        .subscribe(page => this.patients = page.content);
+        .subscribe(page => {
+          this.patients = page.content;
+          this.paginator.length = page.totalElements;
+        });
 
       if (!params.sort) {
         this.matSort.sort({ id: '', start: 'asc', disableClear: false });
       }
+
+      if (!params.page) {
+        this.paginator.pageIndex = 0;
+      }
+
+      if (!params.size) {
+        this.paginator.pageSize = 20;
+      }
+
+      this.paramsChange.emit(params);
     }
   }
 
@@ -46,6 +61,14 @@ export class PatientTableComponent implements OnInit {
       const start = (sortParams[1] === 'asc') ? 'asc' : 'desc';
       this.matSort.sort({ id, start } as MatSortable);
     }
+
+    if (this.params.page) {
+      this.paginator.pageIndex = parseInt(this.params.page, 10);
+    }
+
+    if (this.params.size) {
+      this.paginator.pageSize = parseInt(this.params.page, 10);
+    }
   }
 
   onSortChange(sort: Sort) {
@@ -59,7 +82,13 @@ export class PatientTableComponent implements OnInit {
     }
 
     this.params = newParams;
+  }
 
-    this.paramsChange.emit(newParams);
+  onPageChange(event: PageEvent) {
+    this.params = {
+      ...this.params,
+      page: event.pageIndex.toString(),
+      size: event.pageSize.toString()
+    };
   }
 }

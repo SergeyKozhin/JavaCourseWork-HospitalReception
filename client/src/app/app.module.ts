@@ -27,8 +27,9 @@ import { MatInputModule } from '@angular/material/input';
 import { DiagnosisFormComponent } from './forms/diagnosis-form/diagnosis-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { A11yModule } from '@angular/cdk/a11y';
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatSortModule} from "@angular/material/sort";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSortModule} from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {MatSortModule} from "@angular/material/sort";
         A11yModule,
         MatTooltipModule,
         MatSortModule,
+        MatPaginatorModule,
     ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
