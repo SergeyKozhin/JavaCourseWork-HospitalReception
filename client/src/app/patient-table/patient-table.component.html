@@ -1,27 +1,27 @@
-<table mat-table [dataSource]="patients">
+<table mat-table [dataSource]="patients" matSort (matSortChange)="onSortChange($event)">
 
   <ng-container matColumnDef="firstName">
-    <th mat-header-cell *matHeaderCellDef> First name</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> First name</th>
     <td mat-cell *matCellDef="let patient">{{patient.firstName}}</td>
   </ng-container>
 
   <ng-container matColumnDef="lastName">
-    <th mat-header-cell *matHeaderCellDef> Last name</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Last name</th>
     <td mat-cell *matCellDef="let patient">{{patient.lastName}}</td>
   </ng-container>
 
   <ng-container matColumnDef="fatherName">
-    <th mat-header-cell *matHeaderCellDef> Father name</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Father name</th>
     <td mat-cell *matCellDef="let patient">{{(patient.fatherName) ? patient.fatherName : '-'}}</td>
   </ng-container>
 
   <ng-container matColumnDef="diagnosis">
-    <th mat-header-cell *matHeaderCellDef> Diagnosis </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Diagnosis </th>
     <td mat-cell *matCellDef="let patient">{{patient.diagnosis.name}}</td>
   </ng-container>
 
   <ng-container matColumnDef="ward">
-    <th mat-header-cell *matHeaderCellDef> Ward</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ward</th>
     <td mat-cell *matCellDef="let patient">{{patient.ward.name}}</td>
   </ng-container>
 

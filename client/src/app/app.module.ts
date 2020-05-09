@@ -28,6 +28,7 @@ import { DiagnosisFormComponent } from './forms/diagnosis-form/diagnosis-form.co
 import { MatDialogModule } from '@angular/material/dialog';
 import { A11yModule } from '@angular/cdk/a11y';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatDialogModule,
         A11yModule,
         MatTooltipModule,
+        MatSortModule,
     ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },

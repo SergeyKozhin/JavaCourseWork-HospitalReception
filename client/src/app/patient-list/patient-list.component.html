@@ -13,7 +13,7 @@
 
 <div class="table-and-filters">
   <div class="table">
-    <app-patient-table [params]="(params$ | async)"></app-patient-table>
+    <app-patient-table [params]="(params$ | async)" (paramsChange)="onParamsChange($event)"></app-patient-table>
   </div>
   <div class="filters">
     <app-checkbox-filter *ngIf="diagnosesItems" [groupName]="'Diagnoses'" [inputItems]="diagnosesItems"

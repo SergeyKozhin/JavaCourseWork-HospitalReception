@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PatientSearchParameters } from '../services/PatientSearchParameters';
-import { Observable } from 'rxjs';
-import { DiagnosisService } from '../services/diagnosis.service';
-import { CheckboxItem } from '../checkbox-filter/CheckboxItem';
-import { WardService } from '../services/ward.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PatientSearchParameters} from '../services/PatientSearchParameters';
+import {Observable} from 'rxjs';
+import {DiagnosisService} from '../services/diagnosis.service';
+import {CheckboxItem} from '../checkbox-filter/CheckboxItem';
+import {WardService} from '../services/ward.service';
+import {PagingParameters} from "../services/PagingParameters";
 
 @Component({
   selector: 'app-patient-list',
@@ -22,7 +23,8 @@ export class PatientListComponent implements OnInit {
     private wardService: WardService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.params$ = this.route.queryParams;
@@ -81,24 +83,23 @@ export class PatientListComponent implements OnInit {
       .subscribe(params => {
         let newParams: PatientSearchParameters;
         if (field === 'diagnoses') {
-          newParams = { ...params, diagnosis: selected };
+          newParams = {...params, diagnosis: selected};
         } else {
-          newParams = { ...params, ward: selected };
+          newParams = {...params, ward: selected};
         }
-        this.router.navigate(['/patients'], { queryParams: newParams }).finally();
+        this.router.navigate(['/patients'], {queryParams: newParams}).finally();
       });
   }
 
   onSearch() {
     this.params$
       .subscribe(params => {
-        let newParams: PatientSearchParameters;
-        if (this.search) {
-          newParams = { ...params, name: this.search };
-        } else {
-          newParams = { ...params, name: null };
-        }
-        this.router.navigate(['/patients'], { queryParams: newParams }).finally();
+        const newParams = {...params, name: (this.search) ? this.search : null};
+        this.router.navigate(['/patients'], {queryParams: newParams}).finally();
       });
+  }
+
+  onParamsChange(params: PatientSearchParameters & PagingParameters) {
+    this.router.navigate(['/patients'], {queryParams: params}).finally();
   }
 }
