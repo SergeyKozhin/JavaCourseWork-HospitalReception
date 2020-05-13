@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Diagnosis } from '../../doamain/Diagnosis';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { uniqueValidator } from '../CustomValidators';
 
 @Component({
   selector: 'app-diagnosis-form',
@@ -9,9 +10,19 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./diagnosis-form.component.css']
 })
 export class DiagnosisFormComponent implements OnInit {
+  @Input() _diagnoses: Diagnosis[];
+  set diagnoses(diagnoses: Diagnosis[]) {
+    this._diagnoses = diagnoses;
+    this.name.setValidators([Validators.required, uniqueValidator(diagnoses)]);
+  }
+
+  get diagnoses() {
+    return this._diagnoses;
+  }
+
   form = this.fb.group({
     id: [''],
-    name: ['', Validators.required]
+    name: ['']
   });
   type: 'add' | 'update';
 

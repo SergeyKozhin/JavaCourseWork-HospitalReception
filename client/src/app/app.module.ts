@@ -32,6 +32,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PatientFormComponent } from './forms/patient-form/patient-form.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
   ],
   providers: [
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }
   ],

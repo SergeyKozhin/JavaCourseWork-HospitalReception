@@ -15,8 +15,7 @@ export class DiagnosisListComponent implements OnInit {
   constructor(
     private diagnosisService: DiagnosisService,
     public dialog: MatDialog
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.update();
@@ -31,6 +30,7 @@ export class DiagnosisListComponent implements OnInit {
     const dialogRef = this.dialog.open(DiagnosisFormComponent, {
       data: {} as Diagnosis
     });
+    dialogRef.componentInstance.diagnoses = this.diagnoses;
     dialogRef.afterClosed()
       .subscribe(data => {
         if (data) {
@@ -51,6 +51,7 @@ export class DiagnosisListComponent implements OnInit {
     const dialogRef = this.dialog.open(DiagnosisFormComponent, {
       data: diagnosis
     });
+    dialogRef.componentInstance.diagnoses = this.diagnoses.filter(el => el.id !== diagnosis.id);
     dialogRef.afterClosed()
       .subscribe(data => {
         if (data) {

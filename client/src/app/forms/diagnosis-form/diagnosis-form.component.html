@@ -9,6 +9,9 @@
     <mat-error *ngIf="name.hasError('required')">
       Diagnosis name is required
     </mat-error>
+    <mat-error *ngIf="name.hasError('notUnique')">
+      Diagnosis name myst be unique
+    </mat-error>
   </mat-form-field>
   <br>
 
