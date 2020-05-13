@@ -3,7 +3,6 @@ import { Diagnosis } from '../doamain/Diagnosis';
 import { DiagnosisService } from '../services/diagnosis.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.component';
-import { PatientService } from '../services/patient.service';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -12,11 +11,9 @@ import { PatientService } from '../services/patient.service';
 })
 export class DiagnosisListComponent implements OnInit {
   diagnoses: Diagnosis[];
-  patientCount = new Map<number, number>();
 
   constructor(
     private diagnosisService: DiagnosisService,
-    private patientService: PatientService,
     public dialog: MatDialog
   ) {
   }
@@ -27,16 +24,7 @@ export class DiagnosisListComponent implements OnInit {
 
   update() {
     this.diagnosisService.getDiagnoses()
-      .subscribe(diagnoses => {
-        this.diagnoses = diagnoses;
-
-        this.patientService.getPatients({})
-          .subscribe(patients => {
-            for (const diagnosis of diagnoses) {
-              this.patientCount.set(diagnosis.id, patients.filter(patient => patient.diagnosis.id === diagnosis.id).length);
-            }
-          });
-      });
+      .subscribe(diagnoses => this.diagnoses = diagnoses);
   }
 
   addDiagnosis() {
@@ -49,7 +37,6 @@ export class DiagnosisListComponent implements OnInit {
           this.diagnosisService.addDiagnosis(data)
             .subscribe(newDiagnosis => {
               this.diagnoses.push(newDiagnosis);
-              this.patientCount.set(newDiagnosis.id, 0);
             });
         }
       });
