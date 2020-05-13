@@ -27,7 +27,7 @@ public class Ward {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     @NotBlank(message = "Ward name is mandatory")
     @Size(max = 50, message = "Ward name cant'be longer than 50 characters")
     private final String name;

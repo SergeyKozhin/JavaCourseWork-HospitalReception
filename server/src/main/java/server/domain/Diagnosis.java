@@ -24,7 +24,7 @@ public class Diagnosis {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     @NotBlank(message = "Diagnosis name is mandatory")
     @Size(max = 50, message = "Diagnosis name cant'be longer than 50 characters")
     private final String name;
