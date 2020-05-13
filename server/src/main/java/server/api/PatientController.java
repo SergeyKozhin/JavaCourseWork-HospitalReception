@@ -79,7 +79,7 @@ public class PatientController {
         Ward ward = wardRepo.findById(patient.getWard().getId()).orElseThrow(() ->
                 new IllegalStateException("No such ward."));
 
-        if (patientRepo.countByWard(ward) + 1 > ward.getMaxCount()) {
+        if (ward.getPatientCount() + 1 > ward.getMaxCount()) {
             throw new IllegalStateException("Provided patients ward is fully filled.");
         }
 
@@ -92,7 +92,7 @@ public class PatientController {
         Ward ward = wardRepo.findById(patient.getWard().getId()).orElseThrow(() ->
                 new IllegalStateException("No such ward."));
 
-        if (patientRepo.countByWard(ward) + 1 > ward.getMaxCount()) {
+        if (ward.getPatientCount() + 1  > ward.getMaxCount()) {
             throw new IllegalStateException("Provided patients ward is fully filled.");
         }
 
