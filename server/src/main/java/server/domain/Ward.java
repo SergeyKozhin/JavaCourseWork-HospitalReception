@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,4 +34,7 @@ public class Ward {
 
     @Min(value = 1, message = "Max count must be positive")
     private final long maxCount;
+
+    @Formula("(SELECT COUNT(*) From people o WHERE o.ward_id = id)")
+    private long patientCount;
 }

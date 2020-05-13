@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,4 +28,7 @@ public class Diagnosis {
     @NotBlank(message = "Diagnosis name is mandatory")
     @Size(max = 50, message = "Diagnosis name cant'be longer than 50 characters")
     private final String name;
+
+    @Formula("(SELECT COUNT(*) From people o WHERE o.diagnosis_id = id)")
+    private long patientCount;
 }
