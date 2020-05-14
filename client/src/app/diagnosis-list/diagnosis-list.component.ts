@@ -4,6 +4,7 @@ import { DiagnosisService } from '../services/diagnosis.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.component';
 import { SnackbarService } from '../services/snackbar.service';
+import { ConfirmationWindowComponent } from '../forms/confirmation-window/confirmation-window.component';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -47,13 +48,21 @@ export class DiagnosisListComponent implements OnInit {
   }
 
   deleteDiagnosis(diagnosis: Diagnosis) {
-    this.diagnosisService.deleteDiagnosis(diagnosis)
-      .subscribe(
-        _ => {
-          this.diagnoses = this.diagnoses.filter(el => el !== diagnosis);
-          this.snackbarService.showInfoSnackbar('Diagnosis successfully deleted');
-        },
-        error => this.snackbarService.showErrorSnackbar(`Couldn't delete diagnosis: ${error}`));
+    const dialogRef = this.dialog.open(ConfirmationWindowComponent, {
+      data: `Are you sure you want to delete diagnosis ${diagnosis.name}?`
+    });
+    dialogRef.afterClosed()
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.diagnosisService.deleteDiagnosis(diagnosis)
+            .subscribe(
+              _ => {
+                this.diagnoses = this.diagnoses.filter(el => el !== diagnosis);
+                this.snackbarService.showInfoSnackbar('Diagnosis successfully deleted');
+              },
+              error => this.snackbarService.showErrorSnackbar(`Couldn't delete diagnosis: ${error}`));
+        }
+      });
   }
 
   updateDiagnosis(diagnosis: Diagnosis) {
