@@ -34,6 +34,7 @@ import { PatientFormComponent } from './forms/patient-form/patient-form.componen
 import { MatSelectModule } from '@angular/material/select';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmationWindowComponent } from './forms/confirmation-window/confirmation-window.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     PatientTableComponent,
     CheckboxFilterComponent,
     DiagnosisFormComponent,
-    PatientFormComponent
+    PatientFormComponent,
+    ConfirmationWindowComponent
   ],
   imports: [
     BrowserModule,
