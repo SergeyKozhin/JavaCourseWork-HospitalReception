@@ -1,8 +1,9 @@
 <div class="diagnoses-container">
   <h2 mat-line>Diagnoses</h2>
-  <div class="list-box" #list>
+  <div class="list-box">
     <mat-list>
       <mat-list-item *ngFor="let diagnosis of diagnoses; last as last"
+                     id="{{diagnosis.id}}"
                      [routerLink]="['/patients']"
                      [queryParams]="{ diagnosis: diagnosis.id.toString() }">
         <h4 mat-line>{{diagnosis.name}}</h4>
