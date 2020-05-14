@@ -1,6 +1,6 @@
 <div class="diagnoses-container">
   <h2 mat-line>Diagnoses</h2>
-  <div class="list-box" #list [scrollTop]="list.scrollHeight">
+  <div class="list-box" #list>
     <mat-list>
       <mat-list-item *ngFor="let diagnosis of diagnoses; last as last"
                      [routerLink]="['/patients']"

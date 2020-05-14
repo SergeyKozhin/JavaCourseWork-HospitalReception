@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Diagnosis } from '../doamain/Diagnosis';
 import { DiagnosisService } from '../services/diagnosis.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { ConfirmationWindowComponent } from '../forms/confirmation-window/confir
   styleUrls: ['./diagnosis-list.component.css']
 })
 export class DiagnosisListComponent implements OnInit {
+  @ViewChild('list') listDiv: ElementRef;
   diagnoses: Diagnosis[];
 
   constructor(
@@ -41,6 +42,9 @@ export class DiagnosisListComponent implements OnInit {
             .subscribe(newDiagnosis => {
                 this.snackbarService.showInfoSnackbar('Diagnosis successfully added.');
                 this.diagnoses.push(newDiagnosis);
+                requestAnimationFrame(() =>
+                  this.listDiv.nativeElement.scrollTop = this.listDiv.nativeElement.scrollHeight
+                );
               },
               error => this.snackbarService.showErrorSnackbar(`Couldn't add diagnosis: ${error}`));
         }
