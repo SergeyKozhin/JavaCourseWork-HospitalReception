@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
   @ViewChild('drawer') drawer: MatSidenav;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -18,14 +18,18 @@ export class NavigationComponent {
       shareReplay()
     );
 
+  isHandset: boolean;
+
   constructor(private breakpointObserver: BreakpointObserver) {}
 
-  closeIfHandset() {
+  ngOnInit(): void {
     this.isHandset$
-      .subscribe(state => {
-        if (state) {
-          this.drawer.toggle().finally();
-        }
-      });
+      .subscribe(handset => this.isHandset = handset);
+  }
+
+  closeIfHandset() {
+    if (this.isHandset) {
+      this.drawer.toggle().finally();
+    }
   }
 }
