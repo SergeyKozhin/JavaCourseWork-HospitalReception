@@ -16,7 +16,7 @@
   </ng-container>
 
   <ng-container matColumnDef="diagnosis">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Diagnosis </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Diagnosis</th>
     <td mat-cell *matCellDef="let patient">{{patient.diagnosis.name}}</td>
   </ng-container>
 
@@ -28,8 +28,12 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let patient">
-      <button mat-icon-button color="primary" (click)="editPatient(patient)"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button color="warn" (click)="deletePatient(patient)"><mat-icon>close</mat-icon></button>
+      <button mat-icon-button color="primary" matTooltip="Edit patient" (click)="editPatient(patient)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" matTooltip="Delete patient" (click)="deletePatient(patient)">
+        <mat-icon>close</mat-icon>
+      </button>
     </td>
   </ng-container>
 
