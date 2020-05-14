@@ -1,0 +1,35 @@
+<h3 mat-dialog-title>Ward</h3>
+
+<form mat-dialog-content [formGroup]="form">
+
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput type="text" [formControlName]="'name'" required maxlength="50">
+    <mat-hint align="end">{{name.value.length}}/50</mat-hint>
+    <mat-error *ngIf="name.hasError('required')">
+      Ward name is required
+    </mat-error>
+    <mat-error *ngIf="name.hasError('notUnique')">
+      Ward name myst be unique
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput type="number" [formControlName]="'maxCount'" required>
+    <mat-error *ngIf="maxCount.hasError('required')">
+      Ward max patient count is required
+    </mat-error>
+    <mat-error *ngIf="maxCount.hasError('min')">
+      {{type === 'add' ?
+      'Ward max patient count must be positive' :
+      'Ward max patient count can\'t be less then patient count'}}
+    </mat-error>
+  </mat-form-field>
+  <br>
+
+</form>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button [disabled]="!form.valid"
+          color="primary" [mat-dialog-close]="form.value" cdkFocusInitial>{{type === 'add' ? 'Add' : 'Save'}}</button>
+  <button mat-flat-button type="button" color="warn" mat-dialog-close>Cancel</button>
+</div>
