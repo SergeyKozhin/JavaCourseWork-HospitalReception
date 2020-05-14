@@ -3,7 +3,7 @@ import { Diagnosis } from '../doamain/Diagnosis';
 import { DiagnosisService } from '../services/diagnosis.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -15,7 +15,7 @@ export class DiagnosisListComponent implements OnInit {
 
   constructor(
     private diagnosisService: DiagnosisService,
-    private snackBar: MatSnackBar,
+    private snackbarService: SnackbarService,
     public dialog: MatDialog
   ) { }
 
@@ -38,10 +38,10 @@ export class DiagnosisListComponent implements OnInit {
         if (data) {
           this.diagnosisService.addDiagnosis(data)
             .subscribe(newDiagnosis => {
-                this.showSuccessSnackbar('Diagnosis successfully added.');
+                this.snackbarService.showInfoSnackbar('Diagnosis successfully added.');
                 this.diagnoses.push(newDiagnosis);
               },
-              error => this.showErrorSnackbar(error));
+              error => this.snackbarService.showErrorSnackbar(`Couldn't add diagnosis: ${error}`));
         }
       });
   }
@@ -49,8 +49,11 @@ export class DiagnosisListComponent implements OnInit {
   deleteDiagnosis(diagnosis: Diagnosis) {
     this.diagnosisService.deleteDiagnosis(diagnosis)
       .subscribe(
-        _ => this.diagnoses = this.diagnoses.filter(el => el !== diagnosis),
-        error => this.showErrorSnackbar(error));
+        _ => {
+          this.diagnoses = this.diagnoses.filter(el => el !== diagnosis);
+          this.snackbarService.showInfoSnackbar('Diagnosis successfully deleted');
+        },
+        error => this.snackbarService.showErrorSnackbar(`Couldn't delete diagnosis: ${error}`));
   }
 
   updateDiagnosis(diagnosis: Diagnosis) {
@@ -63,23 +66,12 @@ export class DiagnosisListComponent implements OnInit {
         if (data) {
           this.diagnosisService.updateDiagnosis(data)
             .subscribe(
-              _ => Object.assign(this.diagnoses.find(el => el.id === data.id), data),
-              error => this.showErrorSnackbar(error));
+              _ => {
+                Object.assign(this.diagnoses.find(el => el.id === data.id), data);
+                this.snackbarService.showInfoSnackbar('Diagnosis successfully updated');
+              },
+              error => this.snackbarService.showErrorSnackbar(`Couldn't update diagnosis: ${error}`));
         }
       });
-  }
-
-  private showSuccessSnackbar(message: string) {
-    this.snackBar.open(message, 'OK', {
-      duration: 5000,
-      panelClass: ['info-snackbar']
-    });
-  }
-
-  private showErrorSnackbar(message: string) {
-    this.snackBar.open(message, 'OK', {
-      duration: 5000,
-      panelClass: ['error-snackbar']
-    });
   }
 }
