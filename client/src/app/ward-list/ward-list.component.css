@@ -1,0 +1,41 @@
+.wards-container {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.wards-container .search-box {
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row;
+}
+
+.wards-container .search-box .search-field {
+  width: 500px;
+  flex: 0 1 auto;
+}
+
+.wards-container .list-box {
+  flex: 0 1 auto;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.wards-container .list-box::-webkit-scrollbar {
+  display: none;
+}
+
+.wards-container .list-box mat-list mat-list-item {
+  cursor: pointer;
+}
+
+.wards-container .button-box {
+  flex: 0 0 auto;
+}
+
+.wards-container .button-box button {
+  margin-top: 20px;
+}
+
+
+

@@ -13,8 +13,9 @@
       Ward name myst be unique
     </mat-error>
   </mat-form-field>
+  <br>
   <mat-form-field>
-    <mat-label>Name</mat-label>
+    <mat-label>Max count</mat-label>
     <input matInput type="number" [formControlName]="'maxCount'" required>
     <mat-error *ngIf="maxCount.hasError('required')">
       Ward max patient count is required
