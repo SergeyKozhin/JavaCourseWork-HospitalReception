@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PatientFormComponent } from '../forms/patient-form/patient-form.component';
 import { MatTable } from '@angular/material/table';
 import { SnackbarService } from '../services/snackbar.service';
+import { ConfirmationWindowComponent } from '../forms/confirmation-window/confirmation-window.component';
 
 @Component({
   selector: 'app-patient-table',
@@ -131,12 +132,19 @@ export class PatientTableComponent implements OnInit {
   }
 
   deletePatient(patient: Patient) {
-    this.patientService.deletePatient(patient)
-      .subscribe(_ => {
-        this.updatePatients(this.params);
-        this.snackbarService.showInfoSnackbar('Patient successfully deleted');
-      },
-        error => this.snackbarService.showErrorSnackbar(`Couldn't delete patient: ${error}`));
+    this.dialog.open(ConfirmationWindowComponent, {
+      data: `Are you sure you want to delete patient ${patient.firstName} ${patient.lastName}?`
+    }).afterClosed()
+      .subscribe(confirmation => {
+        if (confirmation) {
+          this.patientService.deletePatient(patient)
+            .subscribe(_ => {
+                this.updatePatients(this.params);
+                this.snackbarService.showInfoSnackbar('Patient successfully deleted');
+              },
+              error => this.snackbarService.showErrorSnackbar(`Couldn't delete patient: ${error}`));
+        }
+      });
   }
 
 
@@ -150,9 +158,9 @@ export class PatientTableComponent implements OnInit {
         if (data) {
           this.patientService.updatePatient(data)
             .subscribe(_ => {
-              Object.assign(this.patients.find(el => el.id === data.id), data);
-              this.snackbarService.showInfoSnackbar('Patient successfully updated');
-            },
+                Object.assign(this.patients.find(el => el.id === data.id), data);
+                this.snackbarService.showInfoSnackbar('Patient successfully updated');
+              },
               error => this.snackbarService.showErrorSnackbar(`Couldn't update patient: ${error}`));
         }
       });
