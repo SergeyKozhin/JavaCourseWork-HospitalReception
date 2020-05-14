@@ -8,6 +8,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PatientFormComponent } from '../forms/patient-form/patient-form.component';
 import { MatTable } from '@angular/material/table';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-patient-table',
@@ -30,11 +31,7 @@ export class PatientTableComponent implements OnInit {
   set params(params: PatientSearchParameters & PagingParameters) {
     if (JSON.stringify(this._params) !== JSON.stringify(params)) {
       this._params = params;
-      this.patientService.getPatientsPage(params)
-        .subscribe(page => {
-          this.patients = page.content;
-          this.paginator.length = page.totalElements;
-        });
+      this.updatePatients(params);
 
       if (!params.sort) {
         this.matSort.sort({ id: '', start: 'asc', disableClear: false });
@@ -56,6 +53,7 @@ export class PatientTableComponent implements OnInit {
 
   constructor(
     private patientService: PatientService,
+    private snackbarService: SnackbarService,
     public dialog: MatDialog
   ) { }
 
@@ -123,10 +121,11 @@ export class PatientTableComponent implements OnInit {
       .subscribe(patient => {
         if (patient) {
           this.patientService.addPatient(patient)
-            .subscribe(newPatient => {
-              this.patients.push(newPatient);
-              this.table.renderRows();
-            });
+            .subscribe(_ => {
+                this.updatePatients(this.params);
+                this.snackbarService.showInfoSnackbar('Patient successfully added');
+              },
+              error => this.snackbarService.showErrorSnackbar(`Couldn't add patient: ${error}`));
         }
       });
   }
@@ -134,9 +133,10 @@ export class PatientTableComponent implements OnInit {
   deletePatient(patient: Patient) {
     this.patientService.deletePatient(patient)
       .subscribe(_ => {
-        this.patients = this.patients.filter(el => el.id !== patient.id);
-        this.table.renderRows();
-      });
+        this.updatePatients(this.params);
+        this.snackbarService.showInfoSnackbar('Patient successfully deleted');
+      },
+        error => this.snackbarService.showErrorSnackbar(`Couldn't delete patient: ${error}`));
   }
 
 
@@ -151,8 +151,18 @@ export class PatientTableComponent implements OnInit {
           this.patientService.updatePatient(data)
             .subscribe(_ => {
               Object.assign(this.patients.find(el => el.id === data.id), data);
-            });
+              this.snackbarService.showInfoSnackbar('Patient successfully updated');
+            },
+              error => this.snackbarService.showErrorSnackbar(`Couldn't update patient: ${error}`));
         }
+      });
+  }
+
+  private updatePatients(params: PatientSearchParameters & PagingParameters) {
+    this.patientService.getPatientsPage(params)
+      .subscribe(page => {
+        this.patients = page.content;
+        this.paginator.length = page.totalElements;
       });
   }
 }
