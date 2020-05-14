@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import server.data.WardRepository;
@@ -32,8 +33,10 @@ public class WardController {
     }
 
     @GetMapping
-    public Iterable<Ward> allWards() {
-        return wardRepo.findAllByOrderByNameAsc();
+    public Iterable<Ward> allWards(
+            @RequestParam(required = false, defaultValue = "") String name
+    ) {
+        return wardRepo.findAllByNameContainsOrderByNameAsc(name);
     }
 
     @GetMapping("/{id}")
