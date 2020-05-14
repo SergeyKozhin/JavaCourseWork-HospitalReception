@@ -45,7 +45,7 @@ export class PatientTableComponent implements OnInit {
       }
 
       if (!params.size) {
-        this.paginator.pageSize = 20;
+        this.paginator.pageSize = 10;
       }
 
       this.paramsChange.emit(params);
@@ -72,7 +72,7 @@ export class PatientTableComponent implements OnInit {
     }
 
     if (this.params.size) {
-      this.paginator.pageSize = parseInt(this.params.page, 10);
+      this.paginator.pageSize = parseInt(this.params.size, 10);
     }
   }
 
