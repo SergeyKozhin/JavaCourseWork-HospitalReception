@@ -32,7 +32,7 @@ public class DiagnosisController {
 
     @GetMapping
     public Iterable<Diagnosis> allDiagnosis() {
-        return diagnosisRepo.findAll();
+        return diagnosisRepo.findAllByOrderByNameAsc();
     }
 
     @GetMapping("/{id}")

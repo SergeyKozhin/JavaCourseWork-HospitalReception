@@ -33,7 +33,7 @@ public class WardController {
 
     @GetMapping
     public Iterable<Ward> allWards() {
-        return wardRepo.findAll();
+        return wardRepo.findAllByOrderByNameAsc();
     }
 
     @GetMapping("/{id}")
