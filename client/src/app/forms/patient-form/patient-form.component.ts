@@ -52,9 +52,21 @@ export class PatientFormComponent implements OnInit {
         this.wards = wards;
 
         if (this.data.ward) {
-          this.ward.setValue(wards.find(ward => ward.id === this.data.ward));
+          const wardFromServer = wards.find(ward => ward.id === this.data.ward);
+          if (!this.wardUnavailable(wardFromServer)) {
+            this.ward.setValue(wards.find(ward => ward.id === this.data.ward));
+          }
         }
       });
+  }
+
+  wardUnavailable(ward: Ward) {
+    const full = ward.patientCount === ward.maxCount;
+    if (this.type === 'add') {
+      return full;
+    } else {
+      return full && this.data.ward !== ward.id;
+    }
   }
 
   get firstName() {
