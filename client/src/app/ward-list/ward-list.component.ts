@@ -15,7 +15,7 @@ export class WardListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.wardService.getWards()
+    this.wardService.getWards({} as any)
       .subscribe(wards => this.wards = wards);
 
   }

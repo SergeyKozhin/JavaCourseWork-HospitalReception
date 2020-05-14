@@ -1,10 +1,11 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Diagnosis } from '../doamain/Diagnosis';
 import { DiagnosisService } from '../services/diagnosis.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.component';
 import { SnackbarService } from '../services/snackbar.service';
 import { ConfirmationWindowComponent } from '../forms/confirmation-window/confirmation-window.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -12,21 +13,24 @@ import { ConfirmationWindowComponent } from '../forms/confirmation-window/confir
   styleUrls: ['./diagnosis-list.component.css']
 })
 export class DiagnosisListComponent implements OnInit {
+  search: string;
   diagnoses: Diagnosis[];
 
   constructor(
     private diagnosisService: DiagnosisService,
     private snackbarService: SnackbarService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.update();
-  }
-
-  update() {
-    this.diagnosisService.getDiagnoses()
-      .subscribe(diagnoses => this.diagnoses = diagnoses);
+    this.route.queryParams
+      .subscribe(params => {
+        this.search = params.name;
+        this.diagnosisService.getDiagnoses(params as any)
+          .subscribe(diagnoses => this.diagnoses = diagnoses);
+      });
   }
 
   addDiagnosis() {
@@ -87,5 +91,10 @@ export class DiagnosisListComponent implements OnInit {
               error => this.snackbarService.showErrorSnackbar(`Couldn't update diagnosis: ${error}`));
         }
       });
+  }
+
+  onSearch() {
+    const newParams = { name: (this.search) ? this.search : null };
+    this.router.navigate(['/diagnoses'], { queryParams: newParams }).finally();
   }
 }

@@ -22,8 +22,8 @@ export class WardService {
     private http: HttpClient
   ) { }
 
-  getWards(): Observable<Ward[]> {
-    return this.http.get<Ward[]>(this.wardUrl)
+  getWards(params: { name: string }): Observable<Ward[]> {
+    return this.http.get<Ward[]>(this.wardUrl, { params })
       .pipe(
         tap(_ => this.logger.log('fetched wards')),
         catchError(this.handleError<Ward[]>('getWards', []))

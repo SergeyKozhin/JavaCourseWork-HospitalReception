@@ -4,6 +4,17 @@
   flex-flow: column;
 }
 
+.diagnoses-container .search-box {
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row;
+}
+
+.diagnoses-container .search-box .search-field {
+  width: 500px;
+  flex: 0 1 auto;
+}
+
 .diagnoses-container .list-box {
   flex: 0 1 auto;
   overflow: auto;

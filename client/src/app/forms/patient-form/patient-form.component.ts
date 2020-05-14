@@ -38,7 +38,7 @@ export class PatientFormComponent implements OnInit {
 
     this.type = (this.data.id === undefined) ? 'add' : 'update';
 
-    this.diagnosisService.getDiagnoses()
+    this.diagnosisService.getDiagnoses({} as any)
       .subscribe(diagnoses => {
         this.diagnoses = diagnoses;
 
@@ -47,7 +47,7 @@ export class PatientFormComponent implements OnInit {
         }
       });
 
-    this.wardService.getWards()
+    this.wardService.getWards({} as any)
       .subscribe(wards => {
         this.wards = wards;
 

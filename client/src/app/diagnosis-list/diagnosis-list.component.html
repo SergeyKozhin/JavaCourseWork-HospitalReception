@@ -1,5 +1,16 @@
 <div class="diagnoses-container">
   <h2 mat-line>Diagnoses</h2>
+  <div class="search-box">
+    <mat-form-field class="search-field">
+      <mat-label>Search</mat-label>
+      <input matInput placeholder="ex. Flue" [(ngModel)]="search" (keyup.enter)="onSearch()">
+    </mat-form-field>
+    <div>
+      <button mat-icon-button (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
   <div class="list-box">
     <mat-list>
       <mat-list-item *ngFor="let diagnosis of diagnoses; last as last"

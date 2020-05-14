@@ -28,8 +28,8 @@ export class DiagnosisService {
     return throwError(`Something went wrong: ${error.message}`);
   }
 
-  getDiagnoses(): Observable<Diagnosis[]> {
-    return this.http.get<Diagnosis[]>(this.diagnosisUrl)
+  getDiagnoses(params: { name: string }): Observable<Diagnosis[]> {
+    return this.http.get<Diagnosis[]>(this.diagnosisUrl, { params })
       .pipe(
         tap(_ => this.logger.log('fetched diagnoses')),
         catchError(DiagnosisService.handleError)

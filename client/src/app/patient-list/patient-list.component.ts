@@ -38,7 +38,7 @@ export class PatientListComponent implements OnInit {
         }
       });
 
-    this.diagnosisService.getDiagnoses()
+    this.diagnosisService.getDiagnoses({}as any)
       .subscribe(diagnoses => {
         const diagnosesItems = diagnoses.map(diagnosis => ({
           value: diagnosis.id.toString(),
@@ -57,7 +57,7 @@ export class PatientListComponent implements OnInit {
           );
       });
 
-    this.wardService.getWards()
+    this.wardService.getWards({} as any)
       .subscribe(wards => {
         const wardsItems = wards.map(ward => {
           return {
