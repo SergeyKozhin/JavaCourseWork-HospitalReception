@@ -41,10 +41,10 @@
   </mat-form-field>
   <br>
 
-  <mat-form-field>
+  <mat-form-field hintLabel="Only not full wards can be selected">
     <mat-label>Ward</mat-label>
-    <mat-select [formControlName]="'ward'"  required>
-      <mat-option *ngFor="let ward of wards" [value]="ward">
+    <mat-select [formControlName]="'ward'" required>
+      <mat-option *ngFor="let ward of wards" [value]="ward" [disabled]="ward.maxCount === ward.patientCount">
         {{ward.name}}
       </mat-option>
     </mat-select>
