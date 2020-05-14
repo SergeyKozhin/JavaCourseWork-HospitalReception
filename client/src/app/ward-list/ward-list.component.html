@@ -18,7 +18,8 @@
                      [routerLink]="['/patients']"
                      [queryParams]="{ ward: ward.id.toString() }">
         <h4 mat-line>{{ward.name}}</h4>
-        <h4 mat-line>Patient count: {{ward.patientCount}}/{{ward.maxCount}}</h4>
+        <h4 mat-line [ngClass]="{ 'full': ward.patientCount === ward.maxCount }">
+          Patient count: {{ward.patientCount}}/{{ward.maxCount}}</h4>
         <button mat-icon-button color="primary"
                 (click)="updateWard(ward); $event.stopPropagation()">
           <mat-icon matTooltip="Edit ward">edit</mat-icon>
