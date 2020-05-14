@@ -5,6 +5,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,7 +47,7 @@ public class PatientController {
             @RequestParam(required = false, defaultValue = "") String name,
             @RequestParam(required = false, defaultValue = "") List<Long> diagnosis,
             @RequestParam(required = false, defaultValue = "") List<Long> ward,
-            Pageable pageable) {
+            @PageableDefault Pageable pageable) {
         PatientSpecification specification = new PatientSpecification(name, diagnosis, ward);
 
         return patientRepo.findAll(specification, pageable);
@@ -92,7 +93,7 @@ public class PatientController {
         Ward ward = wardRepo.findById(patient.getWard().getId()).orElseThrow(() ->
                 new IllegalStateException("No such ward."));
 
-        if (ward.getPatientCount() + 1  > ward.getMaxCount()) {
+        if (ward.getPatientCount() + 1 > ward.getMaxCount()) {
             throw new IllegalStateException("Provided patients ward is fully filled.");
         }
 
