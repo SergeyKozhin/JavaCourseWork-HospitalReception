@@ -1,18 +1,28 @@
-mat-list-item {
-  cursor: pointer;
+.diagnoses-container {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 }
 
-mat-list {
-  max-height: 70%;
+.diagnoses-container .list-box {
+  flex: 0 1 auto;
   overflow: auto;
   scrollbar-width: none;
 }
 
-mat-list::-webkit-scrollbar {
+.diagnoses-container .list-box::-webkit-scrollbar {
   display: none;
 }
 
-button {
+.diagnoses-container .list-box mat-list mat-list-item {
+  cursor: pointer;
+}
+
+.diagnoses-container .button-box {
+  flex: 1 0 auto;
+}
+
+.diagnoses-container .button-box button {
   margin: 10px 0;
 }
 

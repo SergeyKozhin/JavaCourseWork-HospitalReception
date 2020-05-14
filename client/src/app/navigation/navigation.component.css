@@ -1,5 +1,12 @@
-.sidenav-container {
+.layout-container {
+  display: flex;
+  flex-flow: column;
   height: 100%;
+  flex: 1 auto;
+}
+
+.sidenav-container {
+  flex: 1 1 auto;
 }
 
 .sidenav {
@@ -7,15 +14,15 @@
 }
 
 .sidenav-content {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
   padding: 24px;
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
 .mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  flex: 0 0 auto;
 }

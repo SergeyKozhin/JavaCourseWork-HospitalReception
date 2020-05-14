@@ -11,10 +11,12 @@ body {
 
 .info-snackbar {
   background: forestgreen;
+  color: white;
 }
 
 .error-snackbar {
   background: orangered;
+  color: white;
 }
 
 .mat-simple-snackbar-action {
