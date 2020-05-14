@@ -39,6 +39,9 @@
 <mat-toolbar>
   <mat-toolbar-row>
     <button mat-flat-button color="primary" (click)="addPatient()">Add</button>
-    <mat-paginator [pageSizeOptions]="[5, 10]" (page)="onPageChange($event)"></mat-paginator>
+    <mat-paginator
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="[5, 10]"
+      (page)="onPageChange($event)"></mat-paginator>
   </mat-toolbar-row>
 </mat-toolbar>
