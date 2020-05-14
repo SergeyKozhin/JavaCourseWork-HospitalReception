@@ -1,24 +1,29 @@
-<h2 matLine>Patients</h2>
-<div class="search">
-  <mat-form-field class="search-field">
-    <mat-label>Search</mat-label>
-    <input matInput placeholder="ex. John Doe" [(ngModel)]="search" (keyup.enter)="onSearch()">
-  </mat-form-field>
-  <div>
-    <button mat-icon-button (click)="onSearch()">
-      <mat-icon>search</mat-icon>
-    </button>
+<div class="patients-container">
+  <h2 matLine>Patients</h2>
+  <div class="search">
+    <mat-form-field class="search-field">
+      <mat-label>Search</mat-label>
+      <input matInput placeholder="ex. John Doe" [(ngModel)]="search" (keyup.enter)="onSearch()">
+    </mat-form-field>
+    <div>
+      <button mat-icon-button (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
   </div>
-</div>
 
-<div class="table-and-filters">
-  <div class="table">
-    <app-patient-table [params]="(params$ | async)" (paramsChange)="onParamsChange($event)"></app-patient-table>
-  </div>
-  <div class="filters">
-    <app-checkbox-filter *ngIf="(diagnosesItems$ | async)" [groupName]="'Diagnoses'" [items]="(diagnosesItems$ | async)"
-                         (toggle)="onFilterChange('diagnoses', $event)"></app-checkbox-filter>
-    <app-checkbox-filter *ngIf="(wardsItems$ | async)" [groupName]="'Wards'" [items]="(wardsItems$ | async)"
-                         (toggle)="onFilterChange('wards', $event)"></app-checkbox-filter>
+  <div class="table-and-filters">
+    <div class="table">
+      <app-patient-table [params]="(params$ | async)" (paramsChange)="onParamsChange($event)"></app-patient-table>
+    </div>
+    <div class="filters-box">
+      <div class="filter-list">
+        <app-checkbox-filter *ngIf="(diagnosesItems$ | async)" [groupName]="'Diagnoses'"
+                             [items]="(diagnosesItems$ | async)"
+                             (toggle)="onFilterChange('diagnoses', $event)"></app-checkbox-filter>
+        <app-checkbox-filter *ngIf="(wardsItems$ | async)" [groupName]="'Wards'" [items]="(wardsItems$ | async)"
+                             (toggle)="onFilterChange('wards', $event)"></app-checkbox-filter>
+      </div>
+    </div>
   </div>
 </div>

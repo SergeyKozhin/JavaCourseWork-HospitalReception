@@ -19,11 +19,11 @@
 }
 
 .diagnoses-container .button-box {
-  flex: 1 0 auto;
+  flex: 0 0 auto;
 }
 
 .diagnoses-container .button-box button {
-  margin: 10px 0;
+  margin-top: 20px;
 }
 
 
