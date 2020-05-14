@@ -158,7 +158,7 @@ export class PatientTableComponent implements OnInit {
         if (data) {
           this.patientService.updatePatient(data)
             .subscribe(_ => {
-                Object.assign(this.patients.find(el => el.id === data.id), data);
+                this.updatePatients(this.params);
                 this.snackbarService.showInfoSnackbar('Patient successfully updated');
               },
               error => this.snackbarService.showErrorSnackbar(`Couldn't update patient: ${error}`));
