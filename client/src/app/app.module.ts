@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routing/app-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { PatientTableComponent } from './patient-table/patient-table.component';
 import { MatExpansionModule } from '@angular/material/expansion';
