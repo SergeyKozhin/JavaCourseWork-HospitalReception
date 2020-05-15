@@ -37,6 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmationWindowComponent } from './forms/confirmation-window/confirmation-window.component';
 import { WardFormComponent } from './forms/ward-form/ward-form.component';
 import { LoginFormComponent } from './login-from/login-form.component';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { LoginFormComponent } from './login-from/login-form.component';
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },
-    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

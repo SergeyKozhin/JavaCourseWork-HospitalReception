@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthResponse } from './AuthResponse';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -59,8 +59,10 @@ export class AuthService {
           console.error(error);
           if (error.status === 401) {
             this.doLogout();
+            return of('');
           }
-          return of('');
+
+          return throwError(error);
         }));
   }
 
@@ -70,6 +72,10 @@ export class AuthService {
 
   public isAdmin(): boolean {
     return this.roles?.includes('ROLE_ADMIN');
+  }
+
+  public getJwtToken() {
+    return this.jwtToken;
   }
 
   private doLogin(response: AuthResponse) {
