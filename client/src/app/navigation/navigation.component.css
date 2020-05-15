@@ -31,3 +31,9 @@
   justify-content: space-between;
 }
 
+.mat-toolbar.mat-primary div {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
