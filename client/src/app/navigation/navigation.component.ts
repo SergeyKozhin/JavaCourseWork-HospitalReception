@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MatSidenav } from '@angular/material/sidenav';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -20,7 +22,20 @@ export class NavigationComponent implements OnInit {
 
   isHandset: boolean;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
+  logout() {
+    this.authService.logout()
+      .subscribe(success => {
+        if (success) {
+          this.router.navigate(['login']).finally();
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.isHandset$

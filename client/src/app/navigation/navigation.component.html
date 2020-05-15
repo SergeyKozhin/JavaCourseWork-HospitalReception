@@ -1,14 +1,23 @@
 <div class="layout-container">
   <mat-toolbar color="primary">
-    <button
-      type="button"
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      onClick="this.blur()"
-      (click)="drawer.toggle()">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-    <span>Reception</span>
+    <div>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        onClick="this.blur()"
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Reception</span>
+    </div>
+    <div>
+      <button mat-icon-button
+        (click)="logout()"
+        *ngIf="authService.isLoggedIn()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
