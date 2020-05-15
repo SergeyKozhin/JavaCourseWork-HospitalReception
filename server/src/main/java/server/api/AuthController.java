@@ -45,7 +45,7 @@ public class AuthController {
         );
     }
 
-    @DeleteMapping
+    @DeleteMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(@RequestParam String refreshToken) {
         accountService.logoutUser(refreshToken);

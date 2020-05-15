@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import server.data.DiagnosisRepository;
 import server.data.PatientRepository;
+import server.data.RefreshTokenRepository;
 import server.data.UserRepository;
 import server.data.WardRepository;
 import server.domain.Diagnosis;
@@ -25,11 +26,13 @@ public class DevelopmentConfig {
                                         WardRepository wardRepo,
                                         PatientRepository patientRepo,
                                         UserRepository userRepo,
-                                        PasswordEncoder passwordEncoder) {
+                                        PasswordEncoder passwordEncoder,
+                                        RefreshTokenRepository refreshTokenRepo) {
         return args -> {
             patientRepo.deleteAll();
             diagnosisRepo.deleteAll();
             wardRepo.deleteAll();
+            refreshTokenRepo.deleteAll();
             userRepo.deleteAll();
 
             final int n = 100;
