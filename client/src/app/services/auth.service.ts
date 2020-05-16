@@ -75,6 +75,10 @@ export class AuthService {
     return this.jwtToken;
   }
 
+  public getUsername() {
+    return localStorage.getItem(this.usernameKey);
+  }
+
   private doLogin(response: AuthResponse) {
     localStorage.setItem(this.usernameKey, response.username);
     localStorage.setItem(this.rolesKey, JSON.stringify(response.roles));

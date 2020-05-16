@@ -11,10 +11,10 @@
       </button>
       <span>Reception</span>
     </div>
-    <div>
+    <div *ngIf="authService.isLoggedIn()">
+      <h4>{{authService.getUsername()}}</h4>
       <button mat-icon-button
-        (click)="logout()"
-        *ngIf="authService.isLoggedIn()">
+        (click)="logout()">
         <mat-icon>logout</mat-icon>
       </button>
     </div>
