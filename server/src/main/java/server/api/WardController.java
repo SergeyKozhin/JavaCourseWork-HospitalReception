@@ -23,7 +23,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/wards", produces = "application/json")
-@CrossOrigin("*")
 public class WardController {
     private final WardRepository wardRepo;
 

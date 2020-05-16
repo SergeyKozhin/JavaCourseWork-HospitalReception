@@ -22,7 +22,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/diagnosis", produces = "application/json")
-@CrossOrigin("*")
 public class DiagnosisController {
     private final DiagnosisRepository diagnosisRepo;
 

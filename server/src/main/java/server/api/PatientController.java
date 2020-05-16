@@ -31,7 +31,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/patients", produces = "application/json")
-@CrossOrigin("*")
 public class PatientController {
     private final PatientRepository patientRepo;
     private final WardRepository wardRepo;
