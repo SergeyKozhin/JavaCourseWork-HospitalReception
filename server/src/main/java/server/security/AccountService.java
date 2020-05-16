@@ -13,6 +13,8 @@ import server.domain.RefreshToken;
 import server.domain.User;
 import server.security.jwt.JwtTokenProvider;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +37,7 @@ public class AccountService {
         this.refreshTokenRepo = refreshTokenRepo;
     }
 
-    public Map<String, Object> loginUser(String username, String password) {
+    public Map<String, Object> loginUser(String username, String password, HttpServletResponse response) {
         try {
             User user = (User) userDetailsService.loadUserByUsername(username);
 
@@ -50,8 +52,11 @@ public class AccountService {
             model.put("username", username);
             model.put("roles", user.getRoles());
             model.put("jwtToken", jwtToken);
-            model.put("refreshToken", refreshToken);
 
+            Cookie cookie = new Cookie("refreshToken", refreshToken);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/api/auth/");
+            response.addCookie(cookie);
 
             return model;
         } catch (AuthenticationException e) {
