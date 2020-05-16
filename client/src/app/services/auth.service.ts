@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthResponse } from './AuthResponse';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -12,18 +11,16 @@ import { Router } from '@angular/router';
 export class AuthService {
   private jwtToken: string;
   private authUrl = 'auth';
-  private readonly refreshTokenCookie = 'REFRESH_TOKEN';
   private readonly usernameKey = 'USERNAME';
   private readonly rolesKey = 'ROLES';
 
   constructor(
     private http: HttpClient,
-    private cookies: CookieService,
     private router: Router
   ) { }
 
   public login(user: { username: string, password: string }): Observable<boolean> {
-    return this.http.post<AuthResponse>(`${this.authUrl}/login`, user)
+    return this.http.post<AuthResponse>(`${this.authUrl}/login`, user, { withCredentials: true })
       .pipe(
         tap(response => this.doLogin(response)),
         mapTo(true),
@@ -35,14 +32,13 @@ export class AuthService {
   }
 
   public logout(): Observable<boolean> {
-    return this.http.delete(`${this.authUrl}/logout`,
-      { params: { refreshToken: this.getRefreshToken() } })
+    return this.http.delete(`${this.authUrl}/logout`, { withCredentials: true })
       .pipe(
         tap(_ => this.doLogout()),
         mapTo(true),
         catchError((error: HttpErrorResponse) => {
           console.error(error);
-          if (error.status === 401) {
+          if (error.status === 400 || error.status === 401) {
             this.doLogout();
             return of(true);
           }
@@ -52,8 +48,7 @@ export class AuthService {
   }
 
   public refreshToken(): Observable<string> {
-    return this.http.post<{ jwtToken: string }>(`${this.authUrl}/refresh`,
-      {}, { params: { refreshToken: this.getRefreshToken() } })
+    return this.http.post<{ jwtToken: string }>(`${this.authUrl}/refresh`,{}, { withCredentials: true })
       .pipe(
         tap(response => this.jwtToken = response.jwtToken),
         map(response => response.jwtToken),
@@ -64,7 +59,7 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    return this.cookies.check(this.refreshTokenCookie);
+    return localStorage.getItem(this.usernameKey) != null;
   }
 
   public isAdmin(): boolean {
@@ -83,19 +78,13 @@ export class AuthService {
     localStorage.setItem(this.usernameKey, response.username);
     localStorage.setItem(this.rolesKey, JSON.stringify(response.roles));
     this.jwtToken = response.jwtToken;
-    this.cookies.set(this.refreshTokenCookie, response.refreshToken);
   }
 
   private doLogout() {
     localStorage.removeItem(this.usernameKey);
     localStorage.removeItem(this.rolesKey);
     this.jwtToken = null;
-    this.cookies.delete(this.refreshTokenCookie);
     this.router.navigate(['login']).finally();
-  }
-
-  private getRefreshToken() {
-    return this.cookies.get(this.refreshTokenCookie);
   }
 
   private getRoles() {
