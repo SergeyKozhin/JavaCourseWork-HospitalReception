@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LoggingService } from './logging.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { Ward } from '../doamain/Ward';
 import { catchError, tap } from 'rxjs/operators';
+import { logger } from "codelyzer/util/logger";
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,16 @@ export class WardService {
     private http: HttpClient
   ) { }
 
+  private static handleError(error: HttpErrorResponse) {
+    logger.error(`Server error: ${error.message}`);
+    return throwError(`Something went wrong: ${error.message}`);
+  }
+
   getWards(params: { name: string }): Observable<Ward[]> {
     return this.http.get<Ward[]>(this.wardUrl, { params })
       .pipe(
         tap(_ => this.logger.log('fetched wards')),
-        catchError(this.handleError<Ward[]>('getWards', []))
+        catchError(WardService.handleError)
       );
   }
 
@@ -35,7 +41,7 @@ export class WardService {
     return this.http.get<Ward>(`${this.wardUrl}/${id}`)
       .pipe(
         tap(_ => this.logger.log(`fetched ward id=${id}`)),
-        catchError(this.handleError<Ward>('getWard'))
+        catchError(WardService.handleError)
       );
   }
 
@@ -43,7 +49,7 @@ export class WardService {
     return this.http.put<Ward>(`${this.wardUrl}/${ward.id}`, ward, this.httpOptions)
       .pipe(
         tap(_ => this.logger.log(`updated ward id=${ward.id}`)),
-        catchError(this.handleError<any>('updateWard'))
+        catchError(WardService.handleError)
       );
   }
 
@@ -51,7 +57,7 @@ export class WardService {
     return this.http.post<Ward>(this.wardUrl, ward, this.httpOptions)
       .pipe(
         tap((newWard: Ward) => this.logger.log(`added ward id=${newWard.id}`)),
-        catchError(this.handleError<Ward>('addWard'))
+        catchError(WardService.handleError)
       );
   }
 
@@ -61,16 +67,7 @@ export class WardService {
     return this.http.delete<any>(`${this.wardUrl}/${id}`, this.httpOptions)
       .pipe(
         tap(_ => this.logger.log(`deleted ward id=${id}`)),
-        catchError(this.handleError<any>('deleteWard'))
+        catchError(WardService.handleError)
       );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      this.logger.error(`${operation}
-  failed: ${error.message}
-`);
-      return of(result as T);
-    };
   }
 }
