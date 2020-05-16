@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { AuthService } from './services/auth.service';
-import { catchError, filter, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, finalize, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
+          if (error.status === 401 && !request.url.includes('logout') && !request.url.includes('refresh')) {
             return this.handleUnauthorized(request, next);
           } else {
             return throwError(error);
@@ -51,9 +51,16 @@ export class AuthInterceptor implements HttpInterceptor {
 
       return this.authService.refreshToken().pipe(
         switchMap(token => {
+          if (token) {
+            this.refreshTokenSubject.next(token);
+            return next.handle(AuthInterceptor.addToken(request, token));
+          }
+
+          return this.logout();
+        }),
+        catchError(_ => this.logout()),
+        finalize(() => {
           this.isRefreshing = false;
-          this.refreshTokenSubject.next(token);
-          return next.handle(AuthInterceptor.addToken(request, token));
         }));
 
     } else {
@@ -64,6 +71,11 @@ export class AuthInterceptor implements HttpInterceptor {
           return next.handle(AuthInterceptor.addToken(request, jwt));
         }));
     }
+  }
+
+  private logout() {
+    this.authService.logout().subscribe();
+    return throwError('');
   }
 
 }

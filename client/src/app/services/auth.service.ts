@@ -4,6 +4,7 @@ import { AuthResponse } from './AuthResponse';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private cookies: CookieService
+    private cookies: CookieService,
+    private router: Router
   ) { }
 
   public login(user: { username: string, password: string }): Observable<boolean> {
@@ -55,13 +57,8 @@ export class AuthService {
       .pipe(
         tap(response => this.jwtToken = response.jwtToken),
         map(response => response.jwtToken),
-        catchError((error: HttpErrorResponse) => {
+        catchError(error => {
           console.error(error);
-          if (error.status === 401) {
-            this.doLogout();
-            return of('');
-          }
-
           return throwError(error);
         }));
   }
@@ -90,6 +87,7 @@ export class AuthService {
     this.roles = [];
     this.jwtToken = null;
     this.cookies.delete(this.refreshTokenCookie);
+    this.router.navigate(['login']).finally();
   }
 
   private getRefreshToken() {
