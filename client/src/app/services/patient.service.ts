@@ -17,7 +17,8 @@ export class PatientService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
 
   constructor(
@@ -73,7 +74,7 @@ export class PatientService {
   deletePatient(patient: Patient | bigint): Observable<Patient> {
     const id = typeof patient === 'bigint' ? patient : patient.id;
 
-    return this.http.delete<any>(`${this.patientUrl}/${id}`)
+    return this.http.delete<any>(`${this.patientUrl}/${id}`, this.httpOptions)
       .pipe(
         tap(_ => this.logger.log(`deleted patient id=${id}`)),
         catchError(PatientService.handleError)

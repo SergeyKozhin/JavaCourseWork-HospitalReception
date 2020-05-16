@@ -20,7 +20,8 @@ export class DiagnosisService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
 
   private static handleError(error: HttpErrorResponse) {
@@ -63,7 +64,7 @@ export class DiagnosisService {
   deleteDiagnosis(diagnosis: Diagnosis | bigint): Observable<Diagnosis> {
     const id = typeof diagnosis === 'bigint' ? diagnosis : diagnosis.id;
 
-    return this.http.delete<any>(`${this.diagnosisUrl}/${id}`)
+    return this.http.delete<any>(`${this.diagnosisUrl}/${id}`, this.httpOptions)
       .pipe(
         tap(_ => this.logger.log(`deleted diagnosis id=${id}`)),
         catchError(DiagnosisService.handleError)
