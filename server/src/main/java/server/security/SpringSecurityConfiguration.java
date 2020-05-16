@@ -53,7 +53,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/diagnosis/**", "/api/wards/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/diagnosis/{id}", "/api/wards/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/diagnosis/{id}", "/api/wards/{id}").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .apply(new JwtSecurityConfigurer(jwtTokenProvider));
     }
