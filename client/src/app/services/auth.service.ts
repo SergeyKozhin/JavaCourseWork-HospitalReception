@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private username: string;
-  private roles: string[];
   private jwtToken: string;
   private authUrl = 'auth';
-  private refreshTokenCookie = 'REFRESH_TOKEN';
+  private readonly refreshTokenCookie = 'REFRESH_TOKEN';
+  private readonly usernameKey = 'USERNAME';
+  private readonly rolesKey = 'ROLES';
 
   constructor(
     private http: HttpClient,
@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   public isAdmin(): boolean {
-    return this.roles?.includes('ROLE_ADMIN');
+    return this.getRoles().includes('ROLE_ADMIN');
   }
 
   public getJwtToken() {
@@ -76,15 +76,15 @@ export class AuthService {
   }
 
   private doLogin(response: AuthResponse) {
-    this.username = response.username;
-    this.roles = response.roles;
+    localStorage.setItem(this.usernameKey, response.username);
+    localStorage.setItem(this.rolesKey, JSON.stringify(response.roles));
     this.jwtToken = response.jwtToken;
     this.cookies.set(this.refreshTokenCookie, response.refreshToken);
   }
 
   private doLogout() {
-    this.username = null;
-    this.roles = [];
+    localStorage.removeItem(this.usernameKey);
+    localStorage.removeItem(this.rolesKey);
     this.jwtToken = null;
     this.cookies.delete(this.refreshTokenCookie);
     this.router.navigate(['login']).finally();
@@ -92,5 +92,9 @@ export class AuthService {
 
   private getRefreshToken() {
     return this.cookies.get(this.refreshTokenCookie);
+  }
+
+  private getRoles() {
+    return JSON.parse(localStorage.getItem(this.rolesKey));
   }
 }
