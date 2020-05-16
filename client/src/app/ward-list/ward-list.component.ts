@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationWindowComponent } from '../forms/confirmation-window/confirmation-window.component';
 import { WardFormComponent } from '../forms/ward-form/ward-form.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-ward-list',
@@ -21,7 +22,8 @@ export class WardListComponent implements OnInit {
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

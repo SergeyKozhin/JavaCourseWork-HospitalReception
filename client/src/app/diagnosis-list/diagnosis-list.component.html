@@ -19,23 +19,25 @@
                      [queryParams]="{ diagnosis: diagnosis.id.toString() }">
         <h4 mat-line>{{diagnosis.name}}</h4>
         <h4 mat-line>Patient count: {{diagnosis.patientCount}}</h4>
-        <button mat-icon-button color="primary"
-                (click)="updateDiagnosis(diagnosis); $event.stopPropagation()">
-          <mat-icon matTooltip="Edit diagnosis">edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn"
-                (click)="deleteDiagnosis(diagnosis); $event.stopPropagation()"
-                [disabled]="(diagnosis.patientCount != 0)">
-          <mat-icon
-            [matTooltip]="(diagnosis.patientCount != 0) ? 'Can\'t delete diagnosis with patients' : 'Delete diagnosis'">
-            close
-          </mat-icon>
-        </button>
+          <button mat-icon-button color="primary"
+                  (click)="updateDiagnosis(diagnosis); $event.stopPropagation()"
+                  [hidden]="!authService.isAdmin()">
+            <mat-icon matTooltip="Edit diagnosis">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn"
+                  (click)="deleteDiagnosis(diagnosis); $event.stopPropagation()"
+                  [disabled]="(diagnosis.patientCount != 0)"
+                  [hidden]="!authService.isAdmin()">
+            <mat-icon
+              [matTooltip]="(diagnosis.patientCount != 0) ? 'Can\'t delete diagnosis with patients' : 'Delete diagnosis'">
+              close
+            </mat-icon>
+          </button>
         <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
       </mat-list-item>
     </mat-list>
   </div>
   <div class="button-box">
-    <button mat-flat-button color="primary" (click)="addDiagnosis()">Add</button>
+    <button mat-flat-button color="primary" (click)="addDiagnosis()" [hidden]="!authService.isAdmin()">Add</button>
   </div>
 </div>

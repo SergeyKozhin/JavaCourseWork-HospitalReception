@@ -20,23 +20,25 @@
         <h4 mat-line>{{ward.name}}</h4>
         <h4 mat-line [ngClass]="{ 'full': ward.patientCount === ward.maxCount }">
           Patient count: {{ward.patientCount}}/{{ward.maxCount}}</h4>
-        <button mat-icon-button color="primary"
-                (click)="updateWard(ward); $event.stopPropagation()">
-          <mat-icon matTooltip="Edit ward">edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn"
-                (click)="deleteWard(ward); $event.stopPropagation()"
-                [disabled]="(ward.patientCount != 0)">
-          <mat-icon
-            [matTooltip]="(ward.patientCount != 0) ? 'Can\'t delete ward with patients' : 'Delete ward'">
-            close
-          </mat-icon>
-        </button>
+          <button mat-icon-button color="primary"
+                  (click)="updateWard(ward); $event.stopPropagation()"
+                  [hidden]="!authService.isAdmin()">
+            <mat-icon matTooltip="Edit ward">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn"
+                  (click)="deleteWard(ward); $event.stopPropagation()"
+                  [disabled]="(ward.patientCount != 0)"
+                  [hidden]="!authService.isAdmin()">
+            <mat-icon
+              [matTooltip]="(ward.patientCount != 0) ? 'Can\'t delete ward with patients' : 'Delete ward'">
+              close
+            </mat-icon>
+          </button>
         <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
       </mat-list-item>
     </mat-list>
   </div>
   <div class="button-box">
-    <button mat-flat-button color="primary" (click)="addWard()">Add</button>
+    <button mat-flat-button color="primary" (click)="addWard()" [hidden]="!authService.isAdmin()">Add</button>
   </div>
 </div>

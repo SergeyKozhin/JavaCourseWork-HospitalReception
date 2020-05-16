@@ -6,6 +6,7 @@ import { DiagnosisFormComponent } from '../forms/diagnosis-form/diagnosis-form.c
 import { SnackbarService } from '../services/snackbar.service';
 import { ConfirmationWindowComponent } from '../forms/confirmation-window/confirmation-window.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -21,7 +22,8 @@ export class DiagnosisListComponent implements OnInit {
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
