@@ -39,6 +39,12 @@
       Diagnosis is required
     </mat-error>
   </mat-form-field>
+  <button mat-icon-button
+          matTooltip="Add diagnosis"
+          (click)="addDiagnosis()"
+          [hidden]="!authService.isAdmin()">
+    <mat-icon>add</mat-icon>
+  </button>
   <br>
 
   <mat-form-field hintLabel="Only not full wards can be selected">
@@ -52,6 +58,12 @@
       Ward is required
     </mat-error>
   </mat-form-field>
+  <button mat-icon-button
+          matTooltip="Add ward"
+          (click)="addWard()"
+          [hidden]="!authService.isAdmin()">
+    <mat-icon>add</mat-icon>
+  </button>
 
 </form>
 <div mat-dialog-actions align="end">
