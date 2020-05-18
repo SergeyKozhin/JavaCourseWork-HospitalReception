@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-login-from',
@@ -18,18 +19,20 @@ export class LoginFormComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) { }
 
   onSubmit() {
     this.authService.login(this.form.value)
       .subscribe(success => {
-        if (success) {
-          this.router.navigate(['']).finally();
-        } else {
-          this.failed = true;
-        }
-      });
+          if (success) {
+            this.router.navigate(['']).finally();
+          } else {
+            this.failed = true;
+          }
+        },
+        error => this.snackbarService.showErrorSnackbar(`Couldn't login: ${error}`));
   }
 
   get username() { return this.form.get('username'); }

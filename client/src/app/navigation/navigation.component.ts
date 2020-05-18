@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-navigation',
@@ -25,16 +26,18 @@ export class NavigationComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   logout() {
     this.authService.logout()
       .subscribe(success => {
-        if (success) {
-          this.router.navigate(['login']).finally();
-        }
-      });
+          if (success) {
+            this.router.navigate(['login']).finally();
+          }
+        },
+        error => this.snackbarService.showErrorSnackbar(`Couldn't logout: ${error}`));
   }
 
   ngOnInit(): void {
