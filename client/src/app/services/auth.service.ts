@@ -73,7 +73,7 @@ export class AuthService {
   }
 
   public checkUnique(username: string): Observable<boolean> {
-    return this.http.get<{ unique: boolean }>(`${this.authUrl}/check`, { params: { username } })
+    return this.http.get<{ unique: boolean }>(`${this.authUrl}/check`, { params: { username }, withCredentials: true })
       .pipe(
         map(response => response.unique),
         catchError(error => {

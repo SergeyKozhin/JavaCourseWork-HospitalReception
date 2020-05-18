@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PatientListComponent } from '../patient-list/patient-list.component';
 import { DiagnosisListComponent } from '../diagnosis-list/diagnosis-list.component';
 import { WardListComponent } from '../ward-list/ward-list.component';
-import { LoginFormComponent } from '../login-from/login-form.component';
+import { LoginFormComponent } from '../login-form/login-form.component';
 import { LoginGuard } from './login.guard';
 import { NotLoggedInGuard } from './not-logged-in.guard';
 

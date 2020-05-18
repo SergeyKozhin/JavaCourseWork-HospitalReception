@@ -1,0 +1,42 @@
+<h3 mat-dialog-title>New user</h3>
+
+<form mat-dialog-content [formGroup]="form">
+
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input matInput type="text" [formControlName]="'username'" required>
+    <mat-error *ngIf="username.hasError('required')">
+      Username is required
+    </mat-error>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" [formControlName]="'password'" required>
+    <mat-error *ngIf="password.hasError('required')">
+      Password is required
+    </mat-error>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <mat-label>Confirm password</mat-label>
+    <input matInput type="password" [formControlName]="'confirmation'" required>
+    <mat-error *ngIf="confirmation.hasError('required')">
+      Password confirmation is required
+    </mat-error>
+  </mat-form-field>
+  <br>
+
+  <mat-checkbox [formControlName]="'isAdmin'">Administrator</mat-checkbox>
+  <br>
+
+</form>
+
+<div mat-dialog-actions align="end">
+  <button mat-flat-button [disabled]="!form.valid"
+          color="primary" [mat-dialog-close]="form.value" cdkFocusInitial>Register
+  </button>
+  <button mat-flat-button type="button" color="warn" mat-dialog-close>Cancel</button>
+</div>

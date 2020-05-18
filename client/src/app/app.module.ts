@@ -36,8 +36,9 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmationWindowComponent } from './forms/confirmation-window/confirmation-window.component';
 import { WardFormComponent } from './forms/ward-form/ward-form.component';
-import { LoginFormComponent } from './login-from/login-form.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 import { AuthInterceptor } from './auth.interceptor';
+import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { AuthInterceptor } from './auth.interceptor';
     PatientFormComponent,
     ConfirmationWindowComponent,
     WardFormComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    RegistrationFormComponent
   ],
   imports: [
     BrowserModule,
