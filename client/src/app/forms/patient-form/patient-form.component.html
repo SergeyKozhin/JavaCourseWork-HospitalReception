@@ -39,10 +39,10 @@
       Diagnosis is required
     </mat-error>
   </mat-form-field>
-  <button mat-icon-button
+  <button *ngIf="authService.isAdmin()"
+          mat-icon-button
           matTooltip="Add diagnosis"
-          (click)="addDiagnosis()"
-          [hidden]="!authService.isAdmin()">
+          (click)="addDiagnosis()">
     <mat-icon>add</mat-icon>
   </button>
   <br>
@@ -58,10 +58,10 @@
       Ward is required
     </mat-error>
   </mat-form-field>
-  <button mat-icon-button
+  <button *ngIf="authService.isAdmin()"
+          mat-icon-button
           matTooltip="Add ward"
-          (click)="addWard()"
-          [hidden]="!authService.isAdmin()">
+          (click)="addWard()">
     <mat-icon>add</mat-icon>
   </button>
 

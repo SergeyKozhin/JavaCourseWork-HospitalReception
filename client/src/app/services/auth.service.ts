@@ -30,7 +30,7 @@ export class AuthService {
             return of(false);
           }
 
-          return throwError(error);
+          return throwError(error.message);
         })
       );
   }
@@ -46,7 +46,7 @@ export class AuthService {
             this.doLogout();
             return of(true);
           }
-          return throwError(error);
+          return throwError(error.message);
         })
       );
   }
@@ -56,18 +56,18 @@ export class AuthService {
       .pipe(
         tap(response => this.jwtToken = response.jwtToken),
         map(response => response.jwtToken),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           console.error(error);
-          return throwError(error);
+          return throwError(error.message);
         }));
   }
 
   public registerUser(user: { username: string, password: string, role: string }): Observable<any> {
     return this.http.post(`${this.authUrl}/register`, user, { withCredentials: true })
       .pipe(
-        catchError(error => {
+        catchError((error: HttpErrorResponse)  => {
           console.error(error);
-          return throwError(error);
+          return throwError(error.message);
         })
       );
   }
@@ -76,9 +76,9 @@ export class AuthService {
     return this.http.get<{ unique: boolean }>(`${this.authUrl}/check`, { params: { username }, withCredentials: true })
       .pipe(
         map(response => response.unique),
-        catchError(error => {
+        catchError((error: HttpErrorResponse)  => {
           console.error(error);
-          return throwError(error);
+          return throwError(error.message);
         })
       );
   }

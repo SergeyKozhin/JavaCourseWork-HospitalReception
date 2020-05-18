@@ -6,6 +6,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../services/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RegistrationFormComponent } from '../forms/registration-form/registration-form.component';
 
 @Component({
   selector: 'app-navigation',
@@ -27,7 +29,8 @@ export class NavigationComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public authService: AuthService,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog
   ) {}
 
   logout() {
@@ -49,5 +52,16 @@ export class NavigationComponent implements OnInit {
     if (this.isHandset) {
       this.drawer.toggle().finally();
     }
+  }
+
+  register() {
+    this.dialog.open(RegistrationFormComponent)
+      .afterClosed().subscribe(data => {
+      if (data) {
+        this.authService.registerUser({ ...data, role: data.isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER' })
+          .subscribe(_ => this.snackbarService.showInfoSnackbar('New user successfully registered'),
+            error => this.snackbarService.showErrorSnackbar(`Couldn't register user: ${error}`));
+      }
+    });
   }
 }

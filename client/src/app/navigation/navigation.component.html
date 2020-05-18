@@ -14,8 +14,15 @@
     <div *ngIf="authService.isLoggedIn()">
       <h4>{{authService.getUsername()}}</h4>
       <button mat-icon-button
+              matTooltip="Logout"
         (click)="logout()">
         <mat-icon>logout</mat-icon>
+      </button>
+      <button *ngIf="authService.isAdmin()"
+        mat-icon-button
+        matTooltip="Register new user"
+        (click)="register()">
+        <mat-icon>add</mat-icon>
       </button>
     </div>
   </mat-toolbar>
