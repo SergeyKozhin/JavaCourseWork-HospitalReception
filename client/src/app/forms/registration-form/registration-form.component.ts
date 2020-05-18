@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { confirmationValidator } from '../CustomValidators';
 
 @Component({
   selector: 'app-registration-from',
@@ -12,7 +13,7 @@ export class RegistrationFormComponent {
     password: ['', Validators.required],
     confirmation: ['', Validators.required],
     isAdmin: [false, Validators.required]
-  });
+  }, { validators: confirmationValidator });
 
   constructor(
     private fb: FormBuilder

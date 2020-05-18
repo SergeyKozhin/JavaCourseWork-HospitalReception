@@ -26,6 +26,9 @@
     <mat-error *ngIf="confirmation.hasError('required')">
       Password confirmation is required
     </mat-error>
+    <mat-error *ngIf="form.hasError('confirmationNotMatch') && !confirmation.hasError('required')">
+      Password and confirmation not the same
+    </mat-error>
   </mat-form-field>
   <br>
 
