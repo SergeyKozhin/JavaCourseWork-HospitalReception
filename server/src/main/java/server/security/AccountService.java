@@ -6,16 +6,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import server.data.RefreshTokenRepository;
+import server.data.UserRepository;
 import server.domain.RefreshToken;
+import server.domain.RegisterRequest;
 import server.domain.User;
 import server.security.jwt.JwtTokenProvider;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,15 +30,17 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepo;
+    private final UserRepository userRepo;
 
     @Autowired
     public AccountService(@Qualifier("customUserDetailService") UserDetailsService userDetailsService,
                           PasswordEncoder passwordEncoder,
-                          JwtTokenProvider jwtTokenProvider, RefreshTokenRepository refreshTokenRepo) {
+                          JwtTokenProvider jwtTokenProvider, RefreshTokenRepository refreshTokenRepo, UserRepository userRepo) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.refreshTokenRepo = refreshTokenRepo;
+        this.userRepo = userRepo;
     }
 
     public Map<String, Object> loginUser(String username, String password, HttpServletResponse response) {
@@ -76,6 +82,26 @@ public class AccountService {
 
     public void logoutUser(String refreshToken) {
         refreshTokenRepo.findByToken(refreshToken).ifPresent(refreshTokenRepo::delete);
+    }
+
+    public boolean isUnique(String username) {
+        return userRepo.findUserByUsername(username).isEmpty();
+    }
+
+    public void registerUser(RegisterRequest request) {
+        if (!isUnique(request.getUsername())) {
+            throw new IllegalStateException("Username must be unique");
+        }
+
+        final List<String> roles = List.of("ROLE_USER", "ROLE_ADMIN");
+
+        if (!roles.contains(request.getRole())) {
+            throw new IllegalStateException("Role must be allowed");
+        }
+
+        userRepo.save(new User(request.getUsername(),
+                passwordEncoder.encode(request.getPassword()),
+                List.of(request.getRole())));
     }
 
     private String createRefreshToken(User user) {
