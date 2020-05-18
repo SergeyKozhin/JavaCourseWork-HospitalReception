@@ -24,9 +24,13 @@ export class AuthService {
       .pipe(
         tap(response => this.doLogin(response)),
         mapTo(true),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           console.error(error);
-          return of(false);
+          if (error.status === 403) {
+            return of(false);
+          }
+
+          return throwError(error);
         })
       );
   }
@@ -42,13 +46,13 @@ export class AuthService {
             this.doLogout();
             return of(true);
           }
-          return of(false);
+          return throwError(error);
         })
       );
   }
 
   public refreshToken(): Observable<string> {
-    return this.http.post<{ jwtToken: string }>(`${this.authUrl}/refresh`,{}, { withCredentials: true })
+    return this.http.post<{ jwtToken: string }>(`${this.authUrl}/refresh`, {}, { withCredentials: true })
       .pipe(
         tap(response => this.jwtToken = response.jwtToken),
         map(response => response.jwtToken),
@@ -56,6 +60,27 @@ export class AuthService {
           console.error(error);
           return throwError(error);
         }));
+  }
+
+  public registerUser(user: { username: string, password: string, role: string }): Observable<any> {
+    return this.http.post(`${this.authUrl}/register`, user, { withCredentials: true })
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return throwError(error);
+        })
+      );
+  }
+
+  public checkUnique(username: string): Observable<boolean> {
+    return this.http.get<{ unique: boolean }>(`${this.authUrl}/check`, { params: { username } })
+      .pipe(
+        map(response => response.unique),
+        catchError(error => {
+          console.error(error);
+          return throwError(error);
+        })
+      );
   }
 
   public isLoggedIn(): boolean {
