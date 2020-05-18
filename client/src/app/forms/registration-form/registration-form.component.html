@@ -8,6 +8,9 @@
     <mat-error *ngIf="username.hasError('required')">
       Username is required
     </mat-error>
+    <mat-error *ngIf="username.hasError('usernameNotUnique')">
+      Username already taken
+    </mat-error>
   </mat-form-field>
   <br>
 

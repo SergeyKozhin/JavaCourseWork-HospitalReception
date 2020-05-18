@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { confirmationValidator } from '../CustomValidators';
+import { confirmationValidator, uniqueUsernameValidator } from '../CustomValidators';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-registration-from',
@@ -9,14 +10,15 @@ import { confirmationValidator } from '../CustomValidators';
 })
 export class RegistrationFormComponent {
   form = this.fb.group({
-    username: ['', Validators.required],
+    username: ['', Validators.required, uniqueUsernameValidator(this.authService)],
     password: ['', Validators.required],
     confirmation: ['', Validators.required],
     isAdmin: [false, Validators.required]
   }, { validators: confirmationValidator });
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) { }
 
   get username() { return this.form.get('username'); }
